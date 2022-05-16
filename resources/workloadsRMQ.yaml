@@ -103,6 +103,11 @@ spec:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
       kind: ResourceClaim
       name: rmq-knative
+  - name: db
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ResourceClaim
+      name: hungrymandb      
   source:
     git:
       url: https://github.com/gm2552/hungryman.git

@@ -1,0 +1,18 @@
+server.port: 8082
+
+spring: 
+  sql.init.platform: mysql
+  sql.init.mode: ALWAYS
+  
+  cloud: 
+    stream:
+      function:
+        definition: processAvailability
+      bindings: 
+        processAvailability-in-0: 
+          destination: hungryman-search-result
+          group: hungryman-search-result-group
+          consumer: 
+            maxAttempts: 4
+            backOffInitialInterval: 15000
+            backOffMaxInterval: 60000 

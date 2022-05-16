@@ -72,7 +72,6 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman
-    networking.knative.dev/visibility: cluster-local
 spec:
   source:
     git:

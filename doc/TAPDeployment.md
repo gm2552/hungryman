@@ -7,7 +7,7 @@ Tanzu Application Platform is a viable deployment platform for Hungryman, and th
 
 The simplest option is to use RabbitMQ; however, using KNative eventing provides for extended capabilities such as scale to 0 and auto scaling.  In both options, a Spring Cloud Streams binding implementation is required for moving messages from the `hungryman-search` applications; RabbitMQ is the default binding provided.  Neither option requires a change in source code, however different runtime dependencies are configured a build time depending on which eventing implementation is desired.  The `main` branch of this repository uses the RabbitMQ implementation, and the `kneventing` branch contains optional dependency configurations for services that will consume message via CloudEvents.
 
-##Prerequisites
+## Prerequisites
 
 These instructions assume that you have a TAP cluster up and running with the following packages installed:
 
@@ -47,7 +47,7 @@ kubectl apply -f "https://github.com/rabbitmq/messaging-topology-operator/releas
 
 If you choose to use the KNative eventing deployment option, you also need to deploy the KNatvie RabbitMQ Eventing Source resources.  The eventing source acts as a bridge between messages emitted by the `hungryman-search` application the rest of the downstream services.
 
-*NOTE:* The RabbitMQ Eventing source is pre-installed into your TAP deployment if you have chosen to deploy the Cloud Native Runtimes package.  However; versions 1.1.x and below do have an up to date version that will work with some of the declared resources in these instructions.  These instruction require RabbitMQ Eventing 1.4.0 or later.
+*NOTE:* The RabbitMQ Eventing source is pre-installed into your TAP deployment if you have chosen to deploy the Cloud Native Runtimes package.  However; TAP versions 1.1.x and below do not have an up to date version that will work with some of the declared resources in these instructions.  These instruction require RabbitMQ Eventing 1.4.0 or later.
 
 
 ## MySQL Installation

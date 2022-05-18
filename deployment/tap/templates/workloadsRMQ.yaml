@@ -3,6 +3,7 @@ apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: hungryman-search
+  namespace: workload_namespace
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman
@@ -16,12 +17,12 @@ spec:
     ref:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
       kind: ResourceClaim
-      name: hungrymandb 
+      name: mysql_instance_name 
   - name: rmq
     ref:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
       kind: ResourceClaim
-      name: rmq-knative
+      name: rmq_instance_name
   source:
     git:
       url: https://github.com/gm2552/hungryman.git
@@ -34,6 +35,7 @@ apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: hungryman-search-proc
+  namespace: workload_namespace
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman
@@ -48,7 +50,7 @@ spec:
     ref:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
       kind: ResourceClaim
-      name: rmq-knative
+      name: rmq_instance_name
   source:
     git:
       url: https://github.com/gm2552/hungryman.git
@@ -62,6 +64,7 @@ apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: hungryman-notify
+  namespace: workload_namespace
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman
@@ -76,7 +79,7 @@ spec:
     ref:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
       kind: ResourceClaim
-      name: rmq-knative
+      name: rmq_instance_name
   source:
     git:
       url: https://github.com/gm2552/hungryman.git
@@ -89,6 +92,7 @@ apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: hungryman-availability
+  namespace: workload_namespace
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman
@@ -102,12 +106,12 @@ spec:
     ref:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
       kind: ResourceClaim
-      name: rmq-knative
+      name: rmq_instance_name
   - name: db
     ref:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
       kind: ResourceClaim
-      name: hungrymandb      
+      name: mysql_instance_name      
   source:
     git:
       url: https://github.com/gm2552/hungryman.git

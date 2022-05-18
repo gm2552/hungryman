@@ -39,15 +39,6 @@ Note that the event channel protocols are not specified as they can be swapped o
 
 All services in the Hungryman application can technically be deployed on almost any Java enabled platform (thank you Spring).  Below are detailed deployment instructions for various platforms:
 
-* Tanzu Application Services (TDB)
+* Tanzu Application Services (TBD)
 * [Tanzu Application Platform](doc/TAPDeployment.md)
-
-
-
-* Using RabbitMQ for all asynchronous messaging.
-* Using Knative eventing for event orchestration.
-
-The simplest option is to use RabbitMQ; however, using KNative eventing provides for extended capabilities such as scale to 0 and auto scaling.  In both options, a Spring Cloud Streams binding implementation is required for moving messages from the `hungryman-search` applications; RabbitMQ is the default binding provided.  Neither option requires a change in source code, however different runtime dependencies are configured a build time depending on which eventing implementation is desired.  The `main` branch of this repository uses the RabbitMQ implementation, and the `kneventing` branch contains optional dependency configurations for services that will consume message via CloudEvents.
-
-### RabbitMQ Installation
 

@@ -22,7 +22,7 @@ spec:
     ref:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
       kind: ResourceClaim
-      name: rmq-rmq_instance_name
+      name: rmq_instance_name
   source:
     git:
       url: https://github.com/gm2552/hungryman.git
@@ -87,6 +87,11 @@ spec:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
       kind: ResourceClaim
       name: mysql_instance_name
+  - name: db
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ResourceClaim
+      name: mysql_instance_name  
   source:
     git:
       url: https://github.com/gm2552/hungryman.git

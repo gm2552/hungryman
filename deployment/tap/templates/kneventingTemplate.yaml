@@ -2,7 +2,7 @@ apiVersion: flows.knative.dev/v1
 kind: Sequence
 metadata:
   name: hungryman-sequence
-  namespace: workloads
+  namespace: workload_namespace
 spec:
   steps:
     - ref:
@@ -11,13 +11,13 @@ spec:
         name: hungryman-search-proc
       uri: /processSearch
     - ref:
-      uri: http://hungryman-available-parallel-kn-parallel-kn-channel.workloads.svc.cluster.local
+      uri: http://hungryman-available-parallel-kn-parallel-kn-channel.workload_namespace.svc.cluster.local
 ---
 apiVersion: flows.knative.dev/v1
 kind: Parallel
 metadata:
   name: hungryman-available-parallel
-  namespace: workloads
+  namespace: workload_namespace
 spec:
   branches:
     - subscriber:
@@ -38,15 +38,15 @@ apiVersion: rabbitmq.com/v1beta1
 kind: Exchange
 metadata:
   labels:
-    eventing.knative.dev/SourceName: rmq-source
+    eventing.knative.dev/SourceName: hungryman-search-criteria-rabbit-source
   name: hungryman-search-criteria-exchnage
-  namespace: service-instances
+  namespace: rmq_service_namespace
 spec:
   durable: true
   name: hungryman-search-criteria
   rabbitmqClusterReference:
-    name: rmq-knative
-    namespace: service-instances
+    name: rmq_instance_name
+    namespace: rmq_service_namespace
   type: topic
   vhost: /
 ---
@@ -54,16 +54,16 @@ apiVersion: rabbitmq.com/v1beta1
 kind: Queue
 metadata:
   labels:
-    eventing.knative.dev/SourceName: rmq-source
+    eventing.knative.dev/SourceName: hungryman-search-criteria-rabbit-source
   name: hungryman-search-criteria-queue
-  namespace: service-instances
+  namespace: rmq_service_namespace
 spec:
   durable: true
   autoDelete: false
   name: hungryman-search-criteria
   rabbitmqClusterReference:
-    name: rmq-knative
-    namespace: service-instances
+    name: rmq_instance_name
+    namespace: rmq_service_namespace
   type: quorum
   vhost: /
 ---
@@ -71,37 +71,37 @@ apiVersion: rabbitmq.com/v1beta1
 kind: Binding
 metadata:
   labels:
-    eventing.knative.dev/SourceName: rmq-source
+    eventing.knative.dev/SourceName: hungryman-search-criteria-rabbit-source
   name: hungryman-search-criteria-binding
-  namespace: service-instances
+  namespace: rmq_service_namespace
 spec:
   source: hungryman-search-criteria
   destination: hungryman-search-criteria
   destinationType: queue
   routingKey: "#"
   rabbitmqClusterReference:
-    name: rmq-knative
-    namespace: service-instances
+    name: rmq_instance_name
+    namespace: rmq_service_namespace
   vhost: /
 ---
 apiVersion: sources.knative.dev/v1alpha1
 kind: RabbitmqSource
 metadata:
   name: hungryman-search-criteria-rabbit-source
-  namespace: service-instances
+  namespace: rmq_service_namespace
 spec:
   predeclared: true
-  broker: "rmq-knative:5672/"
+  broker: "rmq_instance_name:5672/"
   user:
     secretKeyRef:
-      name: rmq-knative-default-user
+      name: rmq_instance_name-default-user
       key: username
   password:
     secretKeyRef:
-      name: rmq-knative-default-user
+      name: rmq_instance_name-default-user
       key: password
   connectionSecret:
-    name: rmq-knative-default-user
+    name: rmq_instance_name-default-user
   channelConfig:
     globalQos: false
   exchangeConfig:
@@ -113,4 +113,4 @@ spec:
     routingKey: "#"
     durable: true
   sink:
-    uri: http://hungryman-sequence-kn-sequence-0-kn-channel.workloads.svc.cluster.local
+    uri: http://hungryman-sequence-kn-sequence-0-kn-channel.workload_namespace.svc.cluster.local

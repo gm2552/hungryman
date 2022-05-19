@@ -93,9 +93,13 @@ sed -i '' "s/rmq_workloads_namespace/$workloadNamespace/g" ./rmq.yaml
 
 if [ "$useKNativeEventing" != "yes" ]
 then
-	cp ./templates/workloadsRMQ.yaml ./workloads.yaml
+	cp ./templates/workloadsRMQTeamplate.yaml ./workloads.yaml
 else
-    cp ./templates/workloadsKNEventing.yaml ./workloads.yaml
+    cp ./templates/workloadsKNEventingTemplate.yaml ./workloads.yaml
+    cp ./templates/kneventingTemplate.yaml ./kneventing.yaml
+    sed -i '' "s/rmq_instance_name/$rabbitMQName/g" ./kneventing.yaml
+    sed -i '' "s/workload_namespace/$workloadNamespace/g" ./kneventing.yaml
+    sed -i '' "s/rmq_service_namespace/$serviceNamespace/g" ./kneventing.yaml 
 fi
 
 sed -i '' "s/rmq_instance_name/$rabbitMQName/g" ./workloads.yaml
@@ -111,6 +115,16 @@ kubectl create ns $workloadNamespace
 kubectl apply -f ./mysql.yaml
 kubectl apply -f ./rmq.yaml
 
-#Clean up
-rm -f ./mysql.yaml
-rm -f ./rmq.yaml
+echo ""
+echo "Waiting for MySQL and RabbitMQ instances to spin up."
+
+kubectl wait --for=condition=ready --timeout=300s pod -l app.kubernetes.io/instance=$mySQLName -n $serviceNamespace 
+kubectl wait --for=condition=ready --timeout=300s pod -l app.kubernetes.io/name=$rabbitMQName -n $serviceNamespace
+
+
+if [ "$useKNativeEventing" == "yes" ]
+then
+    kubectl apply -f ./kneventing.yaml
+fi
+
+kubectl apply -f ./workloads.yaml

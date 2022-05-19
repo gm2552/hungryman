@@ -9,7 +9,7 @@ The simplest option is to use RabbitMQ; however, using KNative eventing provides
 
 ## Prerequisites
 
-These instructions assume that you have a TAP cluster up and running with the following packages installed:
+These instructions assume that you have a TAP cluster up and running with the following packages installed and [kubectl](https://kubernetes.io/docs/tasks/tools/) installed configured to access your TAP cluster:
 
 * Tanzu Build Services
 * Tanzu Cloud Native Runtimes
@@ -55,24 +55,24 @@ If you choose to use the KNative eventing deployment option, you also need to de
 By default Hungryman services will use an in memory database.  However; the contents of the database will be reset if a pod is restarted or a new revision of the application is deployed.  The default application build supports MySQL as a database target.  Similar to RabbitMQ, MySQL can be deployed in various ways and the services don't care where or how MySQL was installed.  Using an a MySQL Kubernetes operator that supports the service binding specification is an optimal option for application deployment.  The Tanzu MySQL for Kubernetes package is one possibility that supports this option, and installation instructions can be found [here](https://docs.vmware.com/en/VMware-Tanzu-SQL-with-MySQL-for-Kubernetes/1.4/tanzu-mysql-k8s/GUID-install-operator.html).
 
 
-## Service Provisioning and Binding
+## Service and Application Install
 
-With the necessary operators installed, instances of MySQL and RabbitMQ can be spun up by applying the appropriate resources into your cluster.  Additionally, resource claims can be created that allow the application services to bind to and consume the MySQL and RabbitMQ instances.
+With the necessary operators installed, instances of MySQL and RabbitMQ need to be spun up by and resource claims need to be created that allow the application services to bind to and consume the MySQL and RabbitMQ instances.
 
-Run the following command in the ./deployment/tap to deploy instances of RabbitMQ and MySQL and create the resources for service binding.  A biproduct of this command will also make your services and service instances visible to the `tanzu cli`.
-
-```
-./provision.sh
-```
-
-You will be asked for the namespace where you want your service instances to be deployed and the namespace where you will be deploying the Hungryman application.
-
-## Application Deployment
-
-Now that service instances of RabbitMQ and MySQL are deployed, you are now ready to deploy the Hungyman application.  The deployment process will flow through the TAP build services which means workload resource object will be created to kick off the build and deployment of the application into your cluster.  
-
-The previous step (service provisioning) outputs a `workloads.yaml` file that contains the necessary workload configuration to apply to your cluster.  Run the following command to kick off the build and deployment process.  
+Run the following command in the ./deployment/tap to deploy instances of RabbitMQ and MySQL, create the resources for service bindings, and finally submit the application workloads to build and deploy.  The application build and deployment process will flow through the TAP build services.
 
 ```
-kubectl -f workloads.yaml
+./install.sh
 ```
+
+You will be asked for the namespace where you want your service instances to be deployed and the namespace where you will be deploying the Hungryman application.  You will also be given the option to use KNative eventing for asynchronous messaging.
+
+
+## Uninstall and Cleanup
+
+The install script file creates yaml configuration files in the same directory.  To uninstall the Hungryman application and clean up all resources (including delete the MySQL and RabbitMQ instances), simply run the command below in the same directory as the install script.
+
+```
+kubectl delete -f .
+```
+ 

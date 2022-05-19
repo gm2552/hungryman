@@ -7,6 +7,13 @@ default_mysql_name=mysql-hungryman
 default_use_knative_eventing=no
 accept=no
 
+replace="sed -i"  
+
+
+if [[ $OSTYPE == 'darwin'* ]]; then
+  replace="sed -i ''"  
+fi
+
 # Get user input
 
 while [ "$accept" != "yes" ]
@@ -78,18 +85,18 @@ done
 # Apply user inputs to templates
 
 cp ./templates/mysqlTemplate.yaml ./mysql.yaml
-sed -i '' "s/mysql_instance_name/$mySQLName/g" ./mysql.yaml
-sed -i '' "s/mysql_service_namespace/$serviceNamespace/g" ./mysql.yaml
-sed -i '' "s/mysql_workloads_namespace/$workloadNamespace/g" ./mysql.yaml
+$replace "s/mysql_instance_name/$mySQLName/g" ./mysql.yaml
+$replace "s/mysql_service_namespace/$serviceNamespace/g" ./mysql.yaml
+$replace "s/mysql_workloads_namespace/$workloadNamespace/g" ./mysql.yaml
 
 
 cp ./templates/rmqTemplate.yaml ./rmq.yaml
-sed -i '' "s/rmq_instance_name/$rabbitMQName/g" ./rmq.yaml
-sed -i '' "s/rmq_service_namespace/$serviceNamespace/g" ./rmq.yaml
-sed -i '' "s/rmq_workloads_namespace/$workloadNamespace/g" ./rmq.yaml
+$replace "s/rmq_instance_name/$rabbitMQName/g" ./rmq.yaml
+$replace "s/rmq_service_namespace/$serviceNamespace/g" ./rmq.yaml
+$replace "s/rmq_workloads_namespace/$workloadNamespace/g" ./rmq.yaml
 
 
-#Determine which app eventing configuration should be used 
+#Determine which app eventing configuration should be u$replace 
 
 if [ "$useKNativeEventing" != "yes" ]
 then
@@ -97,14 +104,14 @@ then
 else
     cp ./templates/workloadsKNEventingTemplate.yaml ./workloads.yaml
     cp ./templates/kneventingTemplate.yaml ./kneventing.yaml
-    sed -i '' "s/rmq_instance_name/$rabbitMQName/g" ./kneventing.yaml
-    sed -i '' "s/workload_namespace/$workloadNamespace/g" ./kneventing.yaml
-    sed -i '' "s/rmq_service_namespace/$serviceNamespace/g" ./kneventing.yaml 
+    $replace "s/rmq_instance_name/$rabbitMQName/g" ./kneventing.yaml
+    $replace "s/workload_namespace/$workloadNamespace/g" ./kneventing.yaml
+    $replace "s/rmq_service_namespace/$serviceNamespace/g" ./kneventing.yaml 
 fi
 
-sed -i '' "s/rmq_instance_name/$rabbitMQName/g" ./workloads.yaml
-sed -i '' "s/mysql_instance_name/$mySQLName/g" ./workloads.yaml
-sed -i '' "s/workload_namespace/$workloadNamespace/g" ./workloads.yaml
+$replace "s/rmq_instance_name/$rabbitMQName/g" ./workloads.yaml
+$replace "s/mysql_instance_name/$mySQLName/g" ./workloads.yaml
+$replace "s/workload_namespace/$workloadNamespace/g" ./workloads.yaml
 
 # Apply resources to the cluster
 

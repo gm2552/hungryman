@@ -34,15 +34,15 @@ rules:
 
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
-kind: ClusterResource
+kind: ClusterInstanceClass
 metadata:
   name: rabbitmq
 spec:
-  shortDescription: RabbitMQ Clusters
-  longDescription: A consistent and easy way to deploy RabbitMQ clusters to Kubernetes and run them, including "day two" (continuous) operations.
-  resourceRef:
+  description:
+    short: RabbitMQ Clusters
+  pool:
     group: rabbitmq.com
-    kind: RabbitmqCluster
+    kind: RabbitmqCluster    
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaimPolicy

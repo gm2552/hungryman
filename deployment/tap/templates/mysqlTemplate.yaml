@@ -85,14 +85,15 @@ rules:
   verbs: ["get", "list", "watch"]
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
-kind: ClusterResource
+kind: ClusterInstanceClass
 metadata:
   name: mysql
 spec:
-  shortDescription: MySQL DB Instances
-  resourceRef:
+  description:
+    short: MySQL DB Instances
+  pool:
     group: with.sql.tanzu.vmware.com
-    kind: MySQL
+    kind: MySQL  
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaimPolicy

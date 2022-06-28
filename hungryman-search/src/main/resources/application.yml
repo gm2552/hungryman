@@ -6,6 +6,11 @@ spring:
   sql.init.platform: mysql
   sql.init.mode: ALWAYS 
   
+  r2dbc: 
+    #Default properties to work with MariaDB driver
+    properties.sslMode: TRUST  
+    properties.tlsVersion: TLSv1.2
+  
   cloud: 
     stream:
       poller:

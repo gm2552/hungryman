@@ -12,7 +12,7 @@ spring:
         processSearch-out-0: 
           destination: hungryman-search-result
 
-server.port: 8081
+server.port: 8083
       
 hungryman:
 

@@ -1,3 +1,5 @@
+server.port: 8081
+
 hungryman:
   searchEvent:
     period: 120000
@@ -20,3 +22,16 @@ spring:
       bindings: 
         submittedSearches-out-0: 
           destination: hungryman-search-criteria
+          
+---
+
+spring:
+  config.activate.on-profile: local
+
+  
+  sql.init.platform: h2
+  sql.init.mode: ALWAYS 
+  
+  r2dbc: 
+    properties.sslMode:   
+    properties.tlsVersion: 

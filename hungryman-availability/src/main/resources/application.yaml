@@ -4,6 +4,11 @@ spring:
   sql.init.platform: mysql
   sql.init.mode: ALWAYS
   
+  r2dbc: 
+    #Default properties to work with MariaDB driver
+    properties.sslMode: TRUST  
+    properties.tlsVersion: TLSv1.2  
+  
   cloud: 
     stream:
       function:
@@ -16,3 +21,14 @@ spring:
             maxAttempts: 4
             backOffInitialInterval: 15000
             backOffMaxInterval: 60000 
+---
+spring:
+  config.activate.on-profile: local
+
+  
+  sql.init.platform: h2
+  sql.init.mode: ALWAYS 
+  
+  r2dbc: 
+    properties.sslMode:   
+    properties.tlsVersion: 

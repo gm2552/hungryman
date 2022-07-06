@@ -118,3 +118,24 @@ spec:
       ref:
         branch: main
     subPath: hungryman-availability
+---
+
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: hungrymam
+  namespace: workload_namespace
+  labels:
+    apps.tanzu.vmware.com/workload-type: web
+    app.kubernetes.io/part-of: hungryman
+spec:
+  params:
+  - name: annotations
+    value: 
+      autoscaling.knative.dev/minScale: "1"   
+  source:
+    git:
+      url: https://github.com/gm2552/hungryman.git
+      ref:
+        branch: main
+    subPath: hungryman-api-gateway

@@ -6,6 +6,7 @@ import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@CrossOrigin
 @RestController
 @RequestMapping("search")
 @Slf4j
@@ -58,7 +60,7 @@ public class SearchResource
 	
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)  
 	@ResponseStatus(HttpStatus.CREATED)
-	public Mono<Void> addSearch(@RequestBody Search search)
+	public Mono<Search> addSearch(@RequestBody Search search)
 	{
 		log.info("Adding new search {} in zip code {} and radius {}", search.getName(), search.getPostalCode(), search.getRadius());
 	
@@ -90,7 +92,6 @@ public class SearchResource
 				
 			return searchRepo.save(search)
 			           .doOnSuccess(addedSearch -> streamBridge.send(STREAM_BRIDGE_OUTPUT_CHANNLE, addedSearch))
-			           .then()
 			    	   .onErrorResume(e -> { 
 			    	    	log.error("Error adding search.", e);
 			    	    	return Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));

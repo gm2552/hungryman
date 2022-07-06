@@ -4,12 +4,14 @@ import java.util.Calendar;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.java.example.tanzu.hungryman.SpringBaseTest;
 import com.java.example.tanzu.hungryman.entity.Search;
 
 import reactor.test.StepVerifier;
 
+@ActiveProfiles("local")
 public class SearchRepositoryTest extends SpringBaseTest
 {
 	

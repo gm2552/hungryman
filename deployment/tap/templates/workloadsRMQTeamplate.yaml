@@ -123,7 +123,7 @@ spec:
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: hungrymam
+  name: hungryman
   namespace: workload_namespace
   labels:
     apps.tanzu.vmware.com/workload-type: web

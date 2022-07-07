@@ -82,7 +82,7 @@ function SearchDefForm(props)
             <label id="radiusLabel">Radius</label>
             <input id="radius" type="number" placeholder="Search radius in miles" ref={radiusRef}></input><br/>
             <label id="diningNameLabel">Restaurant Names:</label>
-            <input id="diningName" type="text" placeholder="Restaurant Names (seperated by a comma)" ref={diningNameRef} required></input><br/>                 
+            <input id="diningName" type="text" placeholder="Restaurant Names (seperated by a comma)" ref={diningNameRef}></input><br/>                 
             <label id="startTimeLabel">Start Time</label>
             <input id="startTime" type="datetime-local" onChange={handlStartDate} value={startTime.toISOString().substring(0,16)} required></input><br/>   
             <label id="endTimeLabel">End Time</label>

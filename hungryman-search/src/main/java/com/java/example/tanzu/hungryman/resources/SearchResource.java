@@ -73,13 +73,6 @@ public class SearchResource
 			return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST));
 		}
 		
-		//validate that the search has at least 1 dining type or 1 dining name
-		if (!StringUtils.hasText(search.getDiningNames()) && !StringUtils.hasText(search.getDiningTypes()))
-		{
-			log.error("Search must have at least one dining type of one dining name.");
-			return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST));
-		}
-		
 		return searchRepo.findByNameIgnoreCase(search.getName())
 		.switchIfEmpty(Mono.just(new Search()))
 		.flatMap(foundSearch -> 

@@ -1,12 +1,16 @@
 package com.java.example.tanzu.hungryman.searcher.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import com.java.example.tanzu.hungryman.config.StaticDiningAvailability;
 import com.java.example.tanzu.hungryman.model.Availability;
@@ -37,17 +41,35 @@ public class LocalRandomSearcher implements Searcher
 
 	protected Flux<StaticDiningAvailability.Establishment> createRandomDinings(SearchCriteria crit)
 	{
-		/*
-		 * TODO: If the search criteria has dining names, only choose
-		 * random dinings that match the search criteria
-		 */
-		
-		// decide how many we will find
+		List<StaticDiningAvailability.Establishment> bucket = null;
 		var rn = new Random();
-		final var numDinings = rn.nextInt(staticDining.getEstablishments().size()) + 1;
+		var numDinings = 0;
 		
-		// create bucket to select from using the dining names
-		final List<StaticDiningAvailability.Establishment> bucket = new ArrayList<>(staticDining.getEstablishments());
+		if (StringUtils.hasText(crit.getDiningNames()))
+		{
+			var dinNames = Arrays.asList(crit.getDiningNames().trim().split(","));
+			
+			var filteredDining = staticDining.getEstablishments().stream()
+			.filter(estab -> isEstablishmentInList(estab.getDiningName(), dinNames))
+			.collect(Collectors.toList());
+			
+			if (CollectionUtils.isEmpty(filteredDining))
+				return Flux.empty();
+			
+			// decide how many we will find
+			numDinings = rn.nextInt(filteredDining.size()) + 1;
+		
+			// create bucket to select from filtered the dining names
+			bucket = new ArrayList<>(filteredDining);
+		}
+		else
+		{
+			// decide how many we will find
+			numDinings = rn.nextInt(staticDining.getEstablishments().size()) + 1;
+		
+			// create bucket to select from using the dining names
+			bucket = new ArrayList<>(staticDining.getEstablishments());
+		}
 		
 		// create a random list of dining options
 		final List<StaticDiningAvailability.Establishment> dinings = new ArrayList<>();
@@ -125,5 +147,14 @@ public class LocalRandomSearcher implements Searcher
 			return time;
 		
 		return (HALF_HOUR - (time % HALF_HOUR)) + time;
+	}
+	
+	protected boolean isEstablishmentInList(String estabName, List<String> names)
+	{
+		for (String name : names)
+			if (estabName.compareToIgnoreCase(name) == 0)
+				return true;
+		
+		return false;
 	}
 }

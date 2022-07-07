@@ -152,7 +152,7 @@ public class LocalRandomSearcher implements Searcher
 	protected boolean isEstablishmentInList(String estabName, List<String> names)
 	{
 		for (String name : names)
-			if (estabName.compareToIgnoreCase(name) == 0)
+			if (estabName.compareToIgnoreCase(name.trim()) == 0)
 				return true;
 		
 		return false;

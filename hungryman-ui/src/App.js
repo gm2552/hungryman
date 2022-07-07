@@ -8,12 +8,19 @@ function App() {
 
   const [submittedSearches, setSubmittedSearches] = useState();
 
-  useEffect(() => {
-
+  const loadSearches = () => {
     axios.get('/api/search')
-    //axios.get('http://hungryman.perfect300rock.com/api/search')
     .then(resp => setSubmittedSearches(resp.data))
     .catch(error => console.error(error))
+  };
+
+  useEffect(() => {
+    loadSearches();
+    const interval = setInterval(() => {
+      loadSearches();
+    }, 60000);
+    return () => clearInterval(interval);
+
   }, []); 
 
   return (

@@ -1,6 +1,7 @@
 # Hungryman
 The hungryman dining search solution is a multi micro-service application that implements a relatively contemporary architecture comprised of the following technologies:
 
+* An application/API gateway (Spring Cloud Gateway)
 * ReactJS Web Front End
 * Reactive REST Web Services (WebFlux)
 * Reactive Database Access (R2DBC)
@@ -18,6 +19,7 @@ The value proposition of the Hungryman application is to search for availability
 
 Hungryman consists of four main service modules:
 
+* A gateway (`hungryman-api-gateway`)
 * A web UI service (`hungryman-ui`)
 * An API service for submitting search requests (`hungryman-search`)
 * A processor service for executing searches against availability sources and managing results (`hungryman-search-proc`)

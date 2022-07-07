@@ -14,10 +14,11 @@ function DiningSearches(props)
     return(
         
         <div name="diningSearches" id="diningSearches">
-          <div>
-            <label name="searchesHeader" id="searchesHeader">Submitted Searches And Results</label>
-          </div>
-          
+          <div className="bannerHeader"> 
+            <div className="bannerCenter">
+            <label className="searchesHeader">Submitted Searches And Results</label>
+            </div>      	
+          </div>           
           {searches}
         </div>
     );

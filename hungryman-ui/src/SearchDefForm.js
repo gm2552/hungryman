@@ -58,7 +58,8 @@ function SearchDefForm(props)
           radius: radiusRef.current.value,
           name: searchNameRef.current.value,
           startTime: startTime.valueOf(),
-          endTime: endTime.valueOf()
+          endTime: endTime.valueOf(),
+          continousSearch: "true"
         };
 
         axios.put('/api/search', searchToSubmit)

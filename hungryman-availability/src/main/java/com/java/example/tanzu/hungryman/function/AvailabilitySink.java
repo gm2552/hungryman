@@ -31,18 +31,19 @@ public class AvailabilitySink
 	{
 		return avails -> avails.flatMap(avail -> 
 			{
-				log.info("Received availability for dining name {} in search {}", avail.getDiningName(), avail.getSearchName());
+				log.info("Received availability for dining name {} in search {} for subject {}", avail.getDiningName(), avail.getSearchName(), avail.getRequestSubject());
 				
 				// check to see if this is an update or a new entry
-				return availRepo.findBySearchNameAndDiningName(avail.getSearchName(), avail.getDiningName())
-					.switchIfEmpty(Mono.just(new com.java.example.tanzu.hungryman.entity.Availability(null, "", "", "", "","", "", "", "")))
+				return availRepo.findBySearchNameAndDiningNameAndRequestSubject(avail.getSearchName(), avail.getDiningName(), avail.getRequestSubject())
+					.switchIfEmpty(Mono.just(new com.java.example.tanzu.hungryman.entity.Availability(null, "", "", "", "","", "", "", "", "")))
 					.flatMap(foundAvail -> 
 					{
 						// add a new availability entry if one does not already exist for this search/dining combo
 						final Mono<com.java.example.tanzu.hungryman.entity.Availability> saveAvail = (foundAvail.getId() != null) ?
 							Mono.just(foundAvail) : 
 								availRepo.save(new com.java.example.tanzu.hungryman.entity.Availability(null, avail.getSearchName(), avail.getDiningName(), 
-										avail.getAddress(), avail.getLocality(), avail.getRegion(), avail.getPostalCode(), avail.getPhoneNumber(), avail.getReservationURL()));
+										avail.getAddress(), avail.getLocality(), avail.getRegion(), avail.getPostalCode(), avail.getPhoneNumber(), 
+										avail.getReservationURL(), avail.getRequestSubject()));
 						
 						return saveAvail.flatMap(savedAvail ->
 						{

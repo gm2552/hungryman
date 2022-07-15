@@ -2,6 +2,7 @@ package com.java.example.tanzu.hungryman.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,8 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class AvailabilityResource 
 {
+	protected static final String UNKNOWN_REQUEST_SUBJECT_ID = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+	
 	protected AvailabilityRepository availRepo;
 	
 	protected AvailabilityWindowRepository availWindowRepo;
@@ -42,16 +45,32 @@ public class AvailabilityResource
 		this.availWindowRepo = availWindowRepo;
 	}
 	
+	protected String getRequestSubject()
+	{
+		var auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (auth != null)
+		{
+			return auth.getPrincipal().toString();
+		}
+		
+		return UNKNOWN_REQUEST_SUBJECT_ID;
+	}
+	
 	@GetMapping
 	public Flux<Availability> getAllAvailabilty()
 	{
-		return getAvailabilityFromFlux(availRepo.findAll());
+		final var reqSub = getRequestSubject();
+		
+		return getAvailabilityFromFlux(availRepo.findByRequestSubject(reqSub));
 	}
 	
 	@GetMapping("{searchName}")
 	public Flux<com.java.example.tanzu.hungryman.model.Availability> getSearchAvailabilty(@PathVariable("searchName") String searchName)
 	{
-		return getAvailabilityFromFlux(availRepo.findBySearchName(searchName));
+		final var reqSub = getRequestSubject();
+		
+		return getAvailabilityFromFlux(availRepo.findBySearchNameAndRequestSubject(searchName, reqSub));
 	}
 	
 	protected Flux<Availability> getAvailabilityFromFlux(Flux<com.java.example.tanzu.hungryman.entity.Availability> flux)

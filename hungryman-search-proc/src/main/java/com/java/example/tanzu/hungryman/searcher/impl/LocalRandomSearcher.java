@@ -137,6 +137,7 @@ public class LocalRandomSearcher implements Searcher
 		avail.setPostalCode(dining.getPostalCode());
 		avail.setRegion(dining.getRegion());
 		avail.setReservationURL(dining.getReservationURL());
+		avail.setRequestSubject(crit.getRequestSubject());
 		
 		return avail;
 	}

@@ -24,6 +24,8 @@ public class Availability
 	
 	private String reservationURL;
 
+	private String requestSubject;
+	
 	private List<AvailabilityWindow> availabilityWindows = new ArrayList<>();
 	
 	@Data

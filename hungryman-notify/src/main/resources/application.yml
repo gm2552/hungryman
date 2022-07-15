@@ -3,6 +3,8 @@ hungryman:
     logger:
        enabled: true
 
+server.port: 8085
+
 spring:
   cloud: 
     stream:

@@ -38,4 +38,7 @@ public class Search
 	@Column("continousSearch")
 	private boolean continousSearch;
 	
+	@Column("requestSubject")
+	private String requestSubject;
+	
 }

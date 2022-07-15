@@ -27,6 +27,8 @@ public class Availability
 	private String phoneNumber;
 	
 	private String reservationURL;
+
+	private String requestSubject;
 	
 	private List<AvailabilityWindow> availabilityWindows = new ArrayList<>();
 	

@@ -38,4 +38,7 @@ public class Availability
 	
 	@Column("reservationURL")
 	private String reservationURL;
+	
+	@Column("requestSubject")
+	private String requestSubject;
 }

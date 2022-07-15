@@ -25,6 +25,8 @@ public class Availability
 	
 	private String reservationURL;
 	
+	private String requestSubject;
+	
 	private List<AvailabilityWindow> availabilityWindows = new ArrayList<>();
 	
 	@Data
@@ -35,9 +37,5 @@ public class Availability
 		
 		private long endTime;
 	}
-	
-	public String getDiningName()
-	{
-		return diningName;
-	}
+
 }

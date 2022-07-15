@@ -9,7 +9,9 @@ import reactor.core.publisher.Mono;
 
 public interface AvailabilityRepository extends ReactiveCrudRepository<Availability, Long>
 {
-	public Mono<Availability> findBySearchNameAndDiningName(String searchName, String diningName);
+	public Mono<Availability> findBySearchNameAndDiningNameAndRequestSubject(String searchName, String diningName, String subject);
 	
-	public Flux<Availability> findBySearchName(String searchName);
+	public Flux<Availability> findBySearchNameAndRequestSubject(String searchName, String subject);
+	
+	public Flux<Availability> findByRequestSubject(String subject);
 }

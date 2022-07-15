@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +31,8 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class SearchResource 
 {
+	protected static final String UNKNOWN_REQUEST_SUBJECT_ID = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+	
 	protected static final String STREAM_BRIDGE_OUTPUT_CHANNLE = "submittedSearches-out-0";
 	
 	protected SearchRepository searchRepo;
@@ -48,10 +51,24 @@ public class SearchResource
 		this.streamBridge = streamBridge;
 	}
 	
+	protected String getRequestSubject()
+	{
+		var auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (auth != null)
+		{
+			return auth.getPrincipal().toString();
+		}
+		
+		return UNKNOWN_REQUEST_SUBJECT_ID;
+	}
+	
 	@GetMapping
 	public Flux<Search> getAllSearches()
 	{
-		return searchRepo.findAll()
+		final var reqSub = getRequestSubject();
+		
+		return searchRepo.findByRequestSubject(reqSub)
     	   .onErrorResume(e -> { 
     	    	log.error("Error getting searches.", e);
     	    	return Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
@@ -64,6 +81,8 @@ public class SearchResource
 	{
 		log.info("Adding new search {} in zip code {} and radius {}", search.getName(), search.getPostalCode(), search.getRadius());
 	
+		final var reqSub = getRequestSubject();
+		
 		final var curTime = System.currentTimeMillis();
 		
 		// If the requested end time has passed, then return a bad request
@@ -73,7 +92,9 @@ public class SearchResource
 			return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST));
 		}
 		
-		return searchRepo.findByNameIgnoreCase(search.getName())
+		search.setRequestSubject(reqSub);
+		
+		return searchRepo.findByNameIgnoreCaseAndRequestSubject(search.getName(), reqSub)
 		.switchIfEmpty(Mono.just(new Search()))
 		.flatMap(foundSearch -> 
 		{

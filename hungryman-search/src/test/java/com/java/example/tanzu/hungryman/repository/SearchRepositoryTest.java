@@ -26,6 +26,7 @@ public class SearchRepositoryTest extends SpringBaseTest
 		search.setDiningNames(UUID.randomUUID().toString());
 		search.setDiningTypes(UUID.randomUUID().toString());
 		search.setPostalCode("64157");
+		search.setRequestSubject(UUID.randomUUID().toString());
 		
 		return search;
 	}

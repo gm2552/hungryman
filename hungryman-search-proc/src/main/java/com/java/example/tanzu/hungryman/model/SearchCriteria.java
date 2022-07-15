@@ -18,4 +18,6 @@ public class SearchCriteria
 	private String postalCode;
 	
 	private int radius;
+	
+	private String requestSubject;
 }

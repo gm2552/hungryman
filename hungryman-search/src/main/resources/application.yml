@@ -1,4 +1,7 @@
-server.port: 8081
+server:
+  port: 8081
+  forward-headers-strategy: framework
+  use-forward-headers: true
 
 hungryman:
   searchEvent:
@@ -22,6 +25,10 @@ spring:
       bindings: 
         submittedSearches-out-0: 
           destination: hungryman-search-criteria
+
+springdoc:
+  packages-to-scan: com.java.example.tanzu.hungryman.resources
+  show-spring-cloud-functions: false
           
 ---
 

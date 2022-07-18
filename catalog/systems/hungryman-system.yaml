@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: hungryman
+  description: Hungryman Application
+  annotations:
+    'backstage.io/techdocs-ref': dir:.
+spec:
+  owner: hungryman-team

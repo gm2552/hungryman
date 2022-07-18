@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: hungryman-team
+  description: The hungryman app team
+spec:
+  type: organization
+  profile:
+    displayName: Hungryman dev team
+    email: hungryman@example.com
+    picture: https://avatars.dicebear.com/api/identicon/info@example.com.svg?background=%23fff&margin=25

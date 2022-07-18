@@ -24,4 +24,5 @@ spec:
   lifecycle: experimental
   owner: default-team
   definition:
-    $text: http://hungryman.perfect300rock.com/api/search/v3/api-docs/
+    #$text: http://hungryman.perfect300rock.com/api/search/v3/api-docs/
+    $text: http://hungryman-search.workloads/v3/api-docs/

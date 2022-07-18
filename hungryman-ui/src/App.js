@@ -9,7 +9,7 @@ function App() {
   const [submittedSearches, setSubmittedSearches] = useState();
 
   const loadSearches = () => {
-    axios.get('/api/search')
+    axios.get('/api/search/search')
     .then(resp => setSubmittedSearches(resp.data))
     .catch(error => console.error(error))
   };

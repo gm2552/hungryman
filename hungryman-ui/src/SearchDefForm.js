@@ -62,7 +62,7 @@ function SearchDefForm(props)
           continousSearch: "true"
         };
 
-        axios.put('/api/search', searchToSubmit)
+        axios.put('/api/search/search', searchToSubmit)
         //axios.put('http://hungryman.perfect300rock.com/api/search', searchToSubmit)
         .then((resp)=> {
           var newSubmittedSearched =  props.submittedSearches ?  [...props.submittedSearches, resp.data] : [resp.data]; 

@@ -11,6 +11,6 @@ spec:
     - ./components/hungryman-search/hungryman-search.yaml
     - ./groups/org.yaml
     - ./systems/hungryman-system.yaml
-    - ./resources/api-gateway/hugryman-api-gateway-resource.yaml
+    - ./resources/api-gateway/hungryman-api-gateweay-resource.yaml
     - ./resources/db/hungryman-db-resource.yaml
     - ./resources/messaging/hungryman-messaging-resource.yaml  

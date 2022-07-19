@@ -4,8 +4,9 @@ metadata:
   name: hungryman-team
   description: The hungryman app team
 spec:
-  type: organization
+  type: team
   profile:
     displayName: Hungryman dev team
     email: hungryman@example.com
-    picture: https://avatars.dicebear.com/api/identicon/info@example.com.svg?background=%23fff&margin=25
+  children: []
+    

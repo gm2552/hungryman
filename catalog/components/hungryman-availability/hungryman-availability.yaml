@@ -13,21 +13,21 @@ spec:
     - resource:hungryman-db
     - resource:hungryman-messaging
     - component:hungryman-search-proc
-#  providesApis:
-#    - hungryman-availability
-#---
-#apiVersion: backstage.io/v1alpha1
-#kind: API
-#metadata:
-#  name: hungryman-availability
-#  description: The Availability API
-#  tags:
-#    - api
-#    - tanzu
-#spec:
-#  type: openapi
-#  lifecycle: experimental
-#  owner: hungryman-team
-#  system: hungryman
-#  definition:
-#    $text: http://hungryman.perfect300rock.com/api/availability/v3/api-docs/
+  providesApis:
+    - hungryman-availability
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: hungryman-availability
+  description: The Availability API
+  tags:
+    - api
+    - tanzu
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: hungryman-team
+  system: hungryman
+  definition:
+    $text: http://hungryman.perfect300rock.com/api/availability/v3/api-docs/

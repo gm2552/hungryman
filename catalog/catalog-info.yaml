@@ -7,8 +7,10 @@ metadata:
     'backstage.io/techdocs-ref': dir:.
 spec:
   targets:
+    - ./components/hungryman-ui/hungryman-ui.yaml
     - ./components/hungryman-search/hungryman-search.yaml
     - ./groups/org.yaml
     - ./systems/hungryman-system.yaml
-#    - ./resources/hugryman-db-resource.yaml
-#    - ./resources/hugryman-messaging-resource.yaml  
+    - ./resources/api-gateway/hugryman-api-gateeway-resource.yaml
+    - ./resources/db/hugryman-db-resource.yaml
+    - ./resources/messaging/hugryman-messaging-resource.yaml  

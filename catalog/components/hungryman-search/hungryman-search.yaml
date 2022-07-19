@@ -7,10 +7,13 @@ metadata:
 spec:
   type: service
   lifecycle: experimental
-  owner: default-team
+  owner: hungryman-team
   system: hungryman
   providesApis:
-  - hungryman-search
+    - hungryman-search
+  dependsOn: 
+    - resource:hungryman-db
+    - resource:hungryman-messaging
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API
@@ -23,7 +26,7 @@ metadata:
 spec:
   type: openapi
   lifecycle: experimental
-  owner: default-team
+  owner: hungryman-team
   system: hungryman
   definition:
     $text: http://hungryman.perfect300rock.com/api/search/v3/api-docs/

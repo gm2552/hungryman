@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: hungryman-api-gateeway
+  description: Hungryman application api gateway
+  annotations:
+    'backstage.io/techdocs-ref': dir:.
+spec:
+  type: api-gateway
+  owner: hungryman-team
+  system: hungryman

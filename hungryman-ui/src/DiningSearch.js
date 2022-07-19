@@ -24,7 +24,7 @@ function DiningSearch(props)
 
     const loadSearchAvailability= () =>
     {
-      axios.get('/api/availability/availability' + props.search.name)
+      axios.get('/api/availability/availability/' + props.search.name)
       //axios.get('http://hungryman.perfect300rock.com/api/availability/' + props.search.name)
       .then(resp => 
       {

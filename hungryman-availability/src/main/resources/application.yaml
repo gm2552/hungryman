@@ -1,5 +1,10 @@
-server.port: 8082
-
+server:
+  port: 8082
+  # When running behind a reverse proxy, this stradedgy needs to be set to ensure
+  # that OpenAPI endpoint returns the correct server URLs
+  # https://springdoc.org/faq.html#_how_can_i_deploy_springdoc_openapi_ui_behind_a_reverse_proxy
+  forward-headers-strategy: framework
+  
 spring: 
   sql.init.platform: mysql
   sql.init.mode: ALWAYS
@@ -21,6 +26,11 @@ spring:
             maxAttempts: 4
             backOffInitialInterval: 15000
             backOffMaxInterval: 60000 
+            
+springdoc:
+  packages-to-scan: com.java.example.tanzu.hungryman.resources
+  show-spring-cloud-functions: false
+  
 ---
 spring:
   config.activate.on-profile: local

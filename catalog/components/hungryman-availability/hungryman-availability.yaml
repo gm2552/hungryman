@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: hungryman-search
+  name: hungryman-availability
   annotations:
     "backstage.io/kubernetes-label-selector": "app.kubernetes.io/part-of=hungryman"
 spec:
@@ -10,7 +10,7 @@ spec:
   owner: hungryman-team
   system: hungryman
   providesApis:
-    - hungryman-search
+    - hungryman-availability
   dependsOn: 
     - resource:hungryman-db
     - resource:hungryman-messaging
@@ -19,8 +19,8 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: hungryman-search
-  description: The Search API
+  name: hungryman-availability
+  description: The Availability API
   tags:
     - api
     - tanzu
@@ -30,4 +30,4 @@ spec:
   owner: hungryman-team
   system: hungryman
   definition:
-    $text: http://hungryman.perfect300rock.com/api/search/v3/api-docs/
+    $text: http://hungryman.perfect300rock.com/api/availability/v3/api-docs/

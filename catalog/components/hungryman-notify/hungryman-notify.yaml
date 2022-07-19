@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: hungryman-ui
+  name: hungryman-notify
   annotations:
     "backstage.io/kubernetes-label-selector": "app.kubernetes.io/part-of=hungryman"
 spec:
@@ -10,5 +10,5 @@ spec:
   owner: default-team
   system: hungryman
   dependsOn: 
-    - resource:hungryman-db
     - resource:hungryman-messaging
+    - component:hungryman-search-proc

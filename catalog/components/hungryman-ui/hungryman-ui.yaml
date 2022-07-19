@@ -10,5 +10,4 @@ spec:
   owner: hungryman-team
   system: hungryman
   dependsOn: 
-    - resource:hungryman-db
-    - resource:hungryman-messaging
+    - resource:hungryman-api-gateway

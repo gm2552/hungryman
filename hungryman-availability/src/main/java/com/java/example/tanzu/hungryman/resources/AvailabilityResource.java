@@ -1,8 +1,9 @@
-package com.java.example.tanzu.hungryman.resources;
+	package com.java.example.tanzu.hungryman.resources;
+
+import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,30 +46,28 @@ public class AvailabilityResource
 		this.availWindowRepo = availWindowRepo;
 	}
 	
-	protected String getRequestSubject()
-	{
-		var auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		if (auth != null)
+	protected String getPrincipalName(Principal oauth2User)
+	{	
+		if (oauth2User != null)
 		{
-			return auth.getPrincipal().toString();
+			return oauth2User.getName();
 		}
 		
 		return UNKNOWN_REQUEST_SUBJECT_ID;
 	}
 	
 	@GetMapping
-	public Flux<Availability> getAllAvailabilty()
+	public Flux<Availability> getAllAvailabilty(Principal oauth2User)
 	{
-		final var reqSub = getRequestSubject();
+		final var reqSub = getPrincipalName(oauth2User);
 		
 		return getAvailabilityFromFlux(availRepo.findByRequestSubject(reqSub));
 	}
 	
 	@GetMapping("{searchName}")
-	public Flux<com.java.example.tanzu.hungryman.model.Availability> getSearchAvailabilty(@PathVariable("searchName") String searchName)
+	public Flux<com.java.example.tanzu.hungryman.model.Availability> getSearchAvailabilty(@PathVariable("searchName") String searchName, Principal oauth2User)
 	{
-		final var reqSub = getRequestSubject();
+		final var reqSub = getPrincipalName(oauth2User);
 		
 		return getAvailabilityFromFlux(availRepo.findBySearchNameAndRequestSubject(searchName, reqSub));
 	}

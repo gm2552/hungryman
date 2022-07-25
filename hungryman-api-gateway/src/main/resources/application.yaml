@@ -10,6 +10,12 @@ hungryman:
 spring:
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
       routes:
       - id: hungryman_search_route
         uri: ${hungryman.search.uri}
@@ -17,20 +23,27 @@ spring:
         - Path=/api/search/**      
         - Host=hungryman**.**
         filters:
-        - RewritePath=/api(?<segment>/?.*), $\{segment}
+        - TokenRelay=
+        - RewritePath=/api/search(?<segment>/?.*), $\{segment}
       - id: hungryman_availability_route
         uri: ${hungryman.availability.uri}
         predicates:
         - Path=/api/availability/** 
         - Host=hungryman**.**
         filters:
-        - RewritePath=/api(?<segment>/?.*), $\{segment}
+        - TokenRelay=
+        - RewritePath=/api/availability(?<segment>/?.*), $\{segment}
       - id: hungryman_ui_route
         uri: ${hungryman.ui.uri}
         predicates:
         - Host=hungryman**.**
-        - Path=/**               
-       
+        - Path=/diningsearch
+      - id: hungryman_ui_route
+        uri: ${hungryman.ui.uri}
+        predicates:
+        - Host=hungryman**.**
+        - Path=/**
+
 ---
 spring:
   profiles: local

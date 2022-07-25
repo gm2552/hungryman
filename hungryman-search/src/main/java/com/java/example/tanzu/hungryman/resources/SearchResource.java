@@ -1,11 +1,12 @@
 package com.java.example.tanzu.hungryman.resources;
 
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,22 +52,20 @@ public class SearchResource
 		this.streamBridge = streamBridge;
 	}
 	
-	protected String getRequestSubject()
-	{
-		var auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		if (auth != null)
+	protected String getPrincipalName(Principal oauth2User)
+	{	
+		if (oauth2User != null)
 		{
-			return auth.getPrincipal().toString();
+			return oauth2User.getName();
 		}
 		
 		return UNKNOWN_REQUEST_SUBJECT_ID;
 	}
 	
 	@GetMapping
-	public Flux<Search> getAllSearches()
+	public Flux<Search> getAllSearches( Principal oauth2User)
 	{
-		final var reqSub = getRequestSubject();
+		final var reqSub = getPrincipalName(oauth2User);
 		
 		return searchRepo.findByRequestSubject(reqSub)
     	   .onErrorResume(e -> { 
@@ -77,11 +76,11 @@ public class SearchResource
 	
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)  
 	@ResponseStatus(HttpStatus.CREATED)
-	public Mono<Search> addSearch(@RequestBody Search search)
+	public Mono<Search> addSearch(@RequestBody Search search, Principal oauth2User)
 	{
 		log.info("Adding new search {} in zip code {} and radius {}", search.getName(), search.getPostalCode(), search.getRadius());
 	
-		final var reqSub = getRequestSubject();
+		final var reqSub = getPrincipalName(oauth2User);
 		
 		final var curTime = System.currentTimeMillis();
 		

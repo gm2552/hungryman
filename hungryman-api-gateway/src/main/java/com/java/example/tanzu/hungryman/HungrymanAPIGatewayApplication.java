@@ -1,5 +1,6 @@
 package com.java.example.tanzu.hungryman;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,9 @@ import org.springframework.security.web.server.authentication.logout.WebSessionS
 @SpringBootApplication
 public class HungrymanAPIGatewayApplication 
 {	
+	@Value("${hungryman.security.postlogouturi:/}")
+	protected String postlogouturi;
+	
 	public static void main(String[] args) 
 	{
 		SpringApplication.run(HungrymanAPIGatewayApplication.class, args);
@@ -42,6 +46,7 @@ public class HungrymanAPIGatewayApplication
 	   .and()
 	   .oauth2Login(Customizer.withDefaults())
        .logout()
+       .logoutUrl("/scg-logout")
        .logoutHandler(logoutHandler())
        .logoutSuccessHandler(oidcLogoutSuccessHandler(clientRegistrationRepository));
        http.csrf().disable();
@@ -54,7 +59,7 @@ public class HungrymanAPIGatewayApplication
 
     private ServerLogoutSuccessHandler oidcLogoutSuccessHandler(ReactiveClientRegistrationRepository clientRegistrationRepository) {
         OidcClientInitiatedServerLogoutSuccessHandler logoutSuccessHandler = new OidcClientInitiatedServerLogoutSuccessHandler(clientRegistrationRepository);
-        logoutSuccessHandler.setPostLogoutRedirectUri("/");
+        logoutSuccessHandler.setPostLogoutRedirectUri(postlogouturi);
         return logoutSuccessHandler;
     }
 }

@@ -16,7 +16,8 @@
 	<properties>
 		<java.version>11</java.version>
 		<spring-cloud.version>2021.0.3</spring-cloud.version>
-		<revision>0.0.1-SNAPSHOT</revision>			
+		<revision>0.0.1-SNAPSHOT</revision>		
+		<spring-cloud-bindings.version>1.10.0</spring-cloud-bindings.version>			
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -34,6 +35,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>	
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-bindings</artifactId>
+            <version>${spring-cloud-bindings.version}</version>
+        </dependency>	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-r2dbc</artifactId>
@@ -94,7 +100,18 @@
 		    <classifier>test-binder</classifier>
 		</dependency>	
 	</dependencies>
-
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/release/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -105,6 +122,10 @@
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
+						</exclude>
+						<exclude>
+							<groupId>org.springframework.cloud</groupId>
+							<artifactId>spring-cloud-bindings</artifactId>
 						</exclude>
 					</excludes>
 				</configuration>

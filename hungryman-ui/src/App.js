@@ -55,9 +55,14 @@ function App() {
                 </div>
               </Route>
               <Route path="/diningsearch">
-                <div align="center" id="logout">
-                  <button onClick={logout}>Logout</button>
-                </div>
+              <form action="/scg-logout" method="POST" id="form">
+                 <input type="hidden" id="var1" name="var1" value=""/>
+
+
+                 <div align="center" id="logout">
+                   <button>Logout</button>
+                 </div>
+                 </form>
                 <p/>
                 <SearchDefForm submittedSearches={submittedSearches} setSubmittedSearches={setSubmittedSearches}/>
                 <p/>

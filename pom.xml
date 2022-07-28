@@ -8,6 +8,7 @@
     <name>hungryman-parent</name>
     <description>Hungrym dining search application.</description>    
     <modules>
+        <module>./hungryman-api-gateway</module>    
         <module>./hungryman-search</module>
         <module>./hungryman-search-proc</module>
         <module>./hungryman-notify</module>   

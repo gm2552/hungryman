@@ -63,7 +63,6 @@ function SearchDefForm(props)
         };
 
         axios.put('/api/search/search', searchToSubmit)
-        //axios.put('http://hungryman.perfect300rock.com/api/search', searchToSubmit)
         .then((resp)=> {
           var newSubmittedSearched =  props.submittedSearches ?  [...props.submittedSearches, resp.data] : [resp.data]; 
           props.setSubmittedSearches(newSubmittedSearched);
@@ -73,7 +72,15 @@ function SearchDefForm(props)
       };
 
     return(
+      
          <div id="submissionForm" name="submissionForm" >
+            <div className="container welcomeContent">
+              Use the form below to create and submit search, and search results will be displayed below the search form.  Click the "+" symbol to 
+              expand the results of a search, and the "-" symbol to collapse the search results.  Once you are finished with a search, 
+              you may delete the search and its results by clicking on the trashcan icon.
+              <p/>
+            </div>  
+
          <form onSubmit={handleSearchClick} name="inputForm" id="inputForm" className="submissionContainer">
             <header>Submit Search Information</header>
             <label id="searchNameLabel">Search Name</label>

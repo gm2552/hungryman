@@ -6,13 +6,7 @@ server:
   forward-headers-strategy: framework
   
 spring: 
-  sql.init.platform: mysql
   sql.init.mode: ALWAYS
-  
-  r2dbc: 
-    #Default properties to work with MariaDB driver
-    properties.sslMode: TRUST  
-    properties.tlsVersion: TLSv1.2  
   
   cloud: 
     stream:
@@ -33,12 +27,9 @@ springdoc:
   
 ---
 spring:
-  config.activate.on-profile: local
+  config.activate.on-profile: mysql
 
-  
-  sql.init.platform: h2
-  sql.init.mode: ALWAYS 
-  
   r2dbc: 
-    properties.sslMode:   
-    properties.tlsVersion: 
+    #Default properties to work with MariaDB driver
+    properties.sslMode: TRUST  
+    properties.tlsVersion: TLSv1.2  

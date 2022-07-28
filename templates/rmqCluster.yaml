@@ -1,0 +1,11 @@
+#@ load("@ytt:data", "data")
+
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  annotations:
+    rabbitmq.com/topology-allowed-namespaces: '*'
+  name: #@ data.values.rabbitMQName
+  namespace: #@ data.values.serviceNamespace
+spec:
+  replicas: #@ data.values.numRabbitMQClusterNodes

@@ -53,8 +53,8 @@ do
 	then
 	   mySQLName=$default_mysql_name
 	fi
-
-	printf 'Use KNative Eventing yes/no (default no): ' 
+		
+	printf 'Use KNative Eventing yes/no (default no): ' 	
 		
 	read useKNativeEventing
 	
@@ -123,11 +123,10 @@ kubectl apply -f ./mysql.yaml
 kubectl apply -f ./rmq.yaml
 
 echo ""
-echo "Waiting for MySQL and RabbitMQ instances to spin up."
+echo "Waiting for service instances to spin up."
 
 kubectl wait --for=condition=ready --timeout=300s pod -l app.kubernetes.io/instance=$mySQLName -n $serviceNamespace 
 kubectl wait --for=condition=ready --timeout=300s pod -l app.kubernetes.io/name=$rabbitMQName -n $serviceNamespace
-
 
 if [ "$useKNativeEventing" == "yes" ]
 then

@@ -1,0 +1,208 @@
+accelerator:
+  displayName: Hungryman
+  description: A polygot multi-service application of a ReactJS frontend and Spring backend services along with eventing and security (including SSO) optionality.
+  iconUrl: https://github.com/gm2552/hungryman/raw/main/icons/hungryman.png
+  tags:
+  - java
+  - spring
+  - sso
+  - security
+  - sql
+  - messaging
+  - function
+
+  options:
+  - label: Workload Namespace
+    description:  The namespace where the application services will be deployed.
+    defaultValue: workloads
+    name: workloadNamespace
+    inputType: text
+    dataType: string
+    required: true
+  - label: Service Namespace
+    description:  The namespace where data service instances like RabbitMQ and databases reside (or will reside once created).
+    defaultValue: service-instances
+    name: serviceNamespace
+    inputType: text
+    dataType: string
+    required: true  
+  - label: RabbitMQ Cluster Name
+    description: The name of the RabbitMQ cluster that the application services will connect to.
+    defaultValue: rmq-hungryman
+    name: rabbitMQName
+    inputType: text
+    dataType: string
+    required: true
+  - label: Create RabbitMQ Cluster Definition
+    description: "If set to true, a RabbitMQ cluster definition yaml file will be created."
+    defaultValue: true
+    name: createRabbitMQCluster
+    inputType: checkbox
+    dataType: boolean
+    required: true
+  - label: Number of RabbitMQ Cluster Nodes
+    description: The number of nodes that will make up the RabbitMQ number.  SHOULD be an odd number.
+    defaultValue: 1
+    name: numRabbitMQClusterNodes
+    inputType: text
+    dataType: number
+    required: true
+    dependsOn: 
+      name: createRabbitMQCluster
+  - label: Database Type
+    description: The type of database that services will connenct to.
+    inputType: select
+    defaultValue: h2
+    name: dbType
+    choices:
+    - value: mysql
+      text: MySQL
+    - value: postgres
+      text: Postgres
+    - value: h2
+      text: H2 (In Memory DB)
+    required: true
+  - label: Database Name
+    description: The name of the database instance that the application services will connect to.
+    defaultValue: db-hungryman
+    name: dbName
+    inputType: text
+    dataType: string
+    required: true
+    dependsOn: 
+      name: dbType
+      value: mysql
+  - label: Create Database Definition
+    description: "If set to true, a Database instance definition yaml file will be created for the selected database type."
+    defaultValue: true
+    name: createDBInstance
+    inputType: checkbox
+    dataType: boolean
+    required: true
+    dependsOn: 
+      name: dbType
+      value: mysql
+  - label: Create Resource Claim Defintion for Services
+    description: "If set to true, a resource claim definition yaml file for the data services will be created."
+    defaultValue: true
+    name: createResourceClaim
+    inputType: checkbox
+    dataType: boolean
+    required: true
+  - label: Enable Security (Experimental)
+    description: "If set to true, security will enabled on the application and APIs.  You will need to provide additional security configuation in the subsequent sections below."
+    defaultValue: false
+    name: enableSecurity
+    inputType: checkbox
+    dataType: boolean
+    required: true
+  - label: AppSSO Instance Name
+    description: "The name of the AppSSO instance that the application services will connect to."
+    defaultValue: appsso-hungryman
+    name: appSSOName
+    inputType: text
+    dataType: string
+    required: true
+    dependsOn: 
+      name: enableSecurity
+  - label: Issuer URI
+    description: "The full issuer URI of the AppSSO Instance.  Generally in the form of 'http://<authserver-host>.<domain name>"
+    defaultValue: http://authserver.<domainname>
+    name: appSSOIssuerURI
+    inputType: text
+    dataType: string
+    required: true
+    dependsOn: 
+      name: enableSecurity
+  - label: Redirect URI
+    description: "The redirect UI of the hungryman application after successful authentication.  Generally 'http://hungryman.<domain name>/login/oauth2/code/sso"
+    defaultValue: http://hungryman.<domain name>/login/oauth2/code/sso
+    name: appSSORedirectURI
+    inputType: text
+    dataType: string
+    required: true
+    dependsOn: 
+      name: enableSecurity
+  - label: Create Default Dev Account
+    description: "If set to true, you can create a default dev account below.  This should not be used for production use."
+    defaultValue: true
+    name: enableDefaultDevAccount
+    inputType: checkbox
+    dataType: boolean
+    required: true
+    dependsOn: 
+      name: enableSecurity
+  - label: Dev Account Username
+    description: "The username of the dev account"
+    defaultValue: hungryman
+    name: devDefaultAccountUsername
+    inputType: text
+    dataType: string
+    required: false
+    dependsOn: 
+      name: enableDefaultDevAccount
+  - label: Dev Account BCrypt Password
+    description: "A BCrypted version of the password.  You can use the following online tool to create a bycrypt string: https://www.browserling.com/tools/bcrypt"
+    defaultValue: "$2a$10$J/EWz6Q8zxRHYCr2UwJewe5hN6uKhbytUuGGC2yHvEJ2zhH.dLvZe"
+    name: devDefaultAccountPassword
+    inputType: text
+    dataType: string
+    required: false
+    dependsOn: 
+      name: enableDefaultDevAccount
+engine:
+  merge:
+  - exclude: 
+      ["**/templates/**", "**/icons/**", "**/.git/**", "**/deployment/**", "**/doc/**"]
+  - include: ["**/templates/workloads.yaml"]
+    chain:
+    - type: YTT  
+    - type: RewritePath
+      regex: 'templates/workloads.yaml'
+      rewriteTo: "'config/developer/workloads.yaml'"                  
+  - condition: "#createRabbitMQCluster"
+    include: ["**/rmqCluster.yaml"]
+    chain:
+    - type: YTT  
+    - type: RewritePath
+      regex: 'templates/rmqCluster.yaml'
+      rewriteTo: "'config/service-operator/rmqCluster.yaml'"   
+  - condition: "#createDBInstance && #dbType == 'mysql'"
+    include: ["**/mysqlInstance.yaml"]
+    chain:
+    - type: YTT  
+    - type: RewritePath
+      regex: 'templates/mysqlInstance.yaml'
+      rewriteTo: "'config/service-operator/mysqlInstance.yaml'"   
+  - condition:
+      "#createResourceClaim"
+    include: ["**/rmqResourceClaim.yaml"]
+    chain:
+    - type: YTT  
+    - type: RewritePath
+      regex: 'templates/rmqResourceClaim.yaml'
+      rewriteTo: "'config/app-operator/rmqResourceClaim.yaml'"   
+  - condition:
+      "#createResourceClaim && #dbType == 'mysql'"
+    include: ["**/mysqlResourceClaim.yaml"]
+    chain:
+    - type: YTT  
+    - type: RewritePath
+      regex: 'templates/mysqlResourceClaim.yaml'
+      rewriteTo: "'config/app-operator/mysqlResourceClaim.yaml'"     
+  - condition:
+      "#enableSecurity"
+    include: ["**/appSSOInstance.yaml"]
+    chain:
+    - type: YTT  
+    - type: RewritePath
+      regex: 'templates/appSSOInstance.yaml'
+      rewriteTo: "'config/service-operator/appSSOInstance.yaml'"    
+  - condition:
+      "#enableSecurity"
+    include: ["**/clientRegistration.yaml"]
+    chain:
+    - type: YTT  
+    - type: RewritePath
+      regex: 'templates/clientRegistration.yaml'
+      rewriteTo: "'config/app-operator/clientRegistration.yaml'"    

@@ -107,6 +107,8 @@ The accelerator contains the following configuration options:
 * **Dev Account BCrypt Password:** The BCrypt encoded password of the default dev account in the AppSSO instance.
 
 
+**NOTE** The default workload namespace is `workloads` and NOT `default`.  Make sure the workload namespace you choose is setup to build and run workloads.
+
 The generated zip file from the accelerator will contain project folders for all micro-services and yaml configuration files for the selected options.  It will also contain a `workloads.yaml` files in the `config/developer` directory that contain configuration data from the choices above that can be used to create the workloads on the cluster.
 
 ### Application Deployment
@@ -126,6 +128,12 @@ Next apply the `workloads.yaml` file to the cluster to create, build, and deploy
 ```
 kubectl apply -f ./config/developer/workloads.yaml
 ```
+You can watch the progress of the build and deployment of the applications using the Tanzu CLI.  The following tails the build logs for the hungryman-search application (assuming you used the `workloads` namespace as the workload namespace):
+
+```
+tanzu apps workloads tail hungryman-search -n workloads --since 10m --timestamp
+```
+
 
 ## Testing the Deployment
 

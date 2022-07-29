@@ -1,6 +1,12 @@
 # Tanzu Application Platform (TAP) Deployment
 
-The Hungryman TAP deployment options are enabled through a Tanzu application accelerator that will generate all necessary configuration for you.  If you decide to use a database option other than H2, you will still be required to install a database operator out of band of the accelerator, but the accelerator will generate configuration for provisioning database instances using that operator.
+The Hungryman TAP deployment options are enabled through a Tanzu application accelerator that will generate all necessary configuration for you.  
+
+To install the accelerator into your TAP cluster, run the following command:
+
+```
+tanzu acc create hungryman --git-repo https://github.com/gm2552/hungryman --git-branch main
+```
 
 Tanzu Application Platform supports various eventing options for deployments.  The two targetted for this application of the following:
 

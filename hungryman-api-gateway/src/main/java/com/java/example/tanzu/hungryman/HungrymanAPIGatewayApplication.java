@@ -1,5 +1,7 @@
 package com.java.example.tanzu.hungryman;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,10 +20,7 @@ import org.springframework.security.web.server.authentication.logout.WebSessionS
 
 @SpringBootApplication
 public class HungrymanAPIGatewayApplication 
-{	
-	@Value("${hungryman.security.postlogouturi:/}")
-	protected String postlogouturi;
-	
+{		
 	public static void main(String[] args) 
 	{
 		SpringApplication.run(HungrymanAPIGatewayApplication.class, args);
@@ -42,12 +41,13 @@ public class HungrymanAPIGatewayApplication
     {
 	   http.authorizeExchange().pathMatchers("/diningsearch", "/signin", "/api/search/search/**", "/api/availability/availability/**")
 	   .authenticated()
-	   .pathMatchers("/", "/home", "/**").permitAll()
+	   .pathMatchers("/**").permitAll()
 	   .and()
 	   .oauth2Login(Customizer.withDefaults())
        .logout()
        .logoutUrl("/scg-logout")
        .logoutHandler(logoutHandler())
+       .logoutHandler(new WebSessionServerLogoutHandler())
        .logoutSuccessHandler(oidcLogoutSuccessHandler(clientRegistrationRepository));
        http.csrf().disable();
        return http.build();
@@ -59,7 +59,8 @@ public class HungrymanAPIGatewayApplication
 
     private ServerLogoutSuccessHandler oidcLogoutSuccessHandler(ReactiveClientRegistrationRepository clientRegistrationRepository) {
         OidcClientInitiatedServerLogoutSuccessHandler logoutSuccessHandler = new OidcClientInitiatedServerLogoutSuccessHandler(clientRegistrationRepository);
-        logoutSuccessHandler.setPostLogoutRedirectUri(postlogouturi);
+        logoutSuccessHandler.setPostLogoutRedirectUri("{baseUrl}");
+        logoutSuccessHandler.setLogoutSuccessUrl(URI.create("/"));
         return logoutSuccessHandler;
     }
 }

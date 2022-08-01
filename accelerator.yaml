@@ -153,7 +153,7 @@ accelerator:
 engine:
   merge:
   - exclude: 
-      ["**/templates/**", "**/icons/**", "**/.git/**", "**/deployment/**", "**/doc/**"]
+      ["**/templates/**", "**/icons/**", "**/.git/**", "**/deployment/**"]
   - include: ["**/templates/workloads.yaml"]
     chain:
     - type: YTT  

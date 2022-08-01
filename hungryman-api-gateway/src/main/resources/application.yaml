@@ -1,5 +1,5 @@
 hungryman:
-  namespace: workloads
+  namespace: ${spring.cloud.kubernetes.client.namespace}
   ui:
     uri: http://hungryman-ui.${hungryman.namespace}/
   search:

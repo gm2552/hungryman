@@ -12,7 +12,7 @@
   - name: rmq
     ref:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
-      kind: ResourceClaim
+      kind: ResourceClai
       name: #@ data.values.rabbitMQName
 #@ end
 #@ if usesDB == True and data.values.dbType != "h2":
@@ -83,6 +83,7 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman
+    networking.knative.dev/visibility: cluster-local
 spec:
   env: #@ buildAppEnv(True,True)
   params:
@@ -153,6 +154,7 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman
+    networking.knative.dev/visibility: cluster-local
 spec:
   env: #@ buildAppEnv(True,True)
   params:
@@ -176,11 +178,13 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman
+    networking.knative.dev/visibility: cluster-local
 spec:
   params:
   - name: annotations
     value: 
       autoscaling.knative.dev/minScale: "1"   
+      app.kubernetes.io/part-of: hungryman
   source:
     git:
       url: https://github.com/gm2552/hungryman.git

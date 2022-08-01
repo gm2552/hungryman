@@ -44,6 +44,13 @@
 #@ end
 #@ end
 
+#@ def buildUIGitBranch():
+#@ if data.values.enableSecurity == True:
+#@ return "secure-ui"
+#@ end
+#@ return "main"
+#@ end
+
 ---
 apiVersion: carto.run/v1alpha1
 kind: Workload
@@ -178,5 +185,5 @@ spec:
     git:
       url: https://github.com/gm2552/hungryman.git
       ref:
-        branch: main
+        branch: #@ buildUIGitBranch()
     subPath: hungryman-ui

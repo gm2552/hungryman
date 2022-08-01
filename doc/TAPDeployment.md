@@ -8,6 +8,118 @@ To install the accelerator into your TAP cluster, run the following command:
 tanzu acc create hungryman --git-repo https://github.com/gm2552/hungryman --git-branch main
 ```
 
+## Prerequisites
+
+These instructions assume that you have a TAP cluster up and running with the following packages installed and [kubectl](https://kubernetes.io/docs/tasks/tools/) installed and configured to access your TAP cluster:
+
+* Tanzu Build Services
+* Tanzu Cloud Native Runtimes
+* Tanzu Service Bindings
+* Tanzu Services Toolkit
+* Tanzu Out of the Box Supply Chains
+* Tanzu Out of the Box Templates
+* Tanzu Source Controller
+* Tanzu AppSSO (required if using the `Enable Security` option).
+
+It is also assumed that you have `kubectl` and the Tanzu CLI installed on your workstation.
+
+## Quick Start
+
+This section provides a fast track installation of the "simplest" configuration of the Hungry application using the application accelerator and the instructions immediately below.  A more thorough description of the configuration and installation scenarios are describes in subsequent sections of this page.  This section assumes have already installed the application accelerator using the instructions at the top of the page.
+
+* Install Rabbit MQ operator:
+
+```
+kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/download/v1.13.1/cluster-operator.yml"
+```
+
+* Navigate to your TAP GUI web page and Application Accelerator tab on the left of the screen.  Select the `Choose` button on the `Hungrman` Application
+
+* Select all defaults except change the `workload-namespace` if need be to a namespace that you have already configured to run workloads (e.g. a developer namespace).  Download and unzip the generate accelerator file to you workstation.
+
+* Open a command shell and navigate to the root directory of the unzipped file from above.  Run the following commands to create a RabbitMQ instance, resource claims, and workloads:
+
+```
+kubectl create ns service-instances
+
+kubectl apply -f ./config/service-operator/
+
+kubectl apply -f ./config/app-operator/
+
+kubectl apply -f ./config/developer/
+```
+
+Depending on previously installed/cached components, network speed/latency, and available cluster compute, the amount of time for the RabbitMQ cluster to spin up and the workloads to build and deploy may vary greatly.  It is possible for the process to take more than 10 minutes in some instances.
+
+Once the applications have been successfully built and deployed, you can get the URL of the Hungryman application by running the following command.  **Note** If need be, change the namespace `workloads` to the namespace where you deployed the applications.
+
+```
+tanzu apps workloads get hungryman -n workloads
+```
+
+If the application was successfully deployed, you should see a section at the bottom of the command's out similar to the following:
+
+```
+Knative Services
+NAME        READY   URL
+hungryman   Ready   http://hungryman.perfect300rock.com
+```
+
+### Monitor and Verify Installation
+
+You can monitor the quick installation steps from above at any point.
+
+**Verify RabbitMQ Operator Install** 
+
+Run the following command to verify that the RabbitMQ operator installed successfully:
+
+```
+kubectl get pod -l app.kubernetes.io/component=rabbitmq-operator  -n rabbitmq-system
+```
+
+You should see a result similar to the following:
+
+```
+NAME                                         READY   STATUS    RESTARTS   AGE
+rabbitmq-cluster-operator-6f55c6f5fc-98zrm   1/1     Running   0          30m
+```
+
+**Verify RabbitMQ Instance Creation** 
+
+Run the following command to verify that the RabbitMQ instance was created successfully:
+
+```
+kubectl get rabbitmq -n service-instances
+```
+
+You should see a result similar to the following:
+
+```
+NAME            ALLREPLICASREADY   RECONCILESUCCESS   AGE
+rmq-hungryman   True               True               55m
+```
+
+**Verify Application Build and Deployment**
+
+Run the following command to verify that applications built and deployed successfully.  **Note** If need be, change the namespace `workloads` to the namespace where you deployed the applications.
+
+```
+kubectl get workload -n workloads
+```
+
+You should see a result similar to the following:
+
+```
+hungryman                https://github.com/gm2552/hungryman.git   source-to-url   True    Ready    58m
+hungryman-availability   https://github.com/gm2552/hungryman.git   source-to-url   True    Ready    58m
+hungryman-notify         https://github.com/gm2552/hungryman.git   source-to-url   True    Ready    58m
+hungryman-search         https://github.com/gm2552/hungryman.git   source-to-url   True    Ready    58m
+hungryman-search-proc    https://github.com/gm2552/hungryman.git   source-to-url   True    Ready    58m
+hungryman-ui             https://github.com/gm2552/hungryman.git   source-to-url   True    Ready    58m
+```
+
+## Configuration Option Overview  
+
 Tanzu Application Platform supports various eventing options for deployments.  The two targetted for this application of the following:
 
 * Spring Cloud Streams
@@ -24,19 +136,6 @@ For database configuration, the default H2 in memory database is the simplest op
 By default, the application has no security.  When choosing the security configuration, you are required to create an AppSSO instance resource as well as a `ClientRegistration` resource for the Hungryman application; the accelerator will generate the resource yaml for you.  You can either use a built in development account, or have the option (in a future release of this accelerator) to connect to external OICD identity providers.
 
 **NOTE** For the fastest and easiest path to deploying this application, use the default options of the H2 database and no security.  You will still be required to deploy the RabbitMQ operator out of band, however this step is trivial as explained in the `RabbitMQ Operator` section of this guide.
-
-## Prerequisites
-
-These instructions assume that you have a TAP cluster up and running with the following packages installed and [kubectl](https://kubernetes.io/docs/tasks/tools/) installed and configured to access your TAP cluster:
-
-* Tanzu Build Services
-* Tanzu Cloud Native Runtimes
-* Tanzu Service Bindings
-* Tanzu Services Toolkit
-* Tanzu Out of the Box Supply Chains
-* Tanzu Out of the Box Templates
-* Tanzu Source Controller
-* Tanzu AppSSO (required if using the `Enable Security` option).
 
 ## RabbitMQ Installation
 
@@ -143,7 +242,7 @@ Assuming the application has successfully deployed, you can test the application
 tanzu apps workloads get hungryman -n <workload-namespace>
 ```
 
-If the application was successfully deployed, you should a section at the bottom of the command's out similar to the following:
+If the application was successfully deployed, you should see a section at the bottom of the command's out similar to the following:
 
 ```
 Knative Services

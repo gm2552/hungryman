@@ -9,3 +9,8 @@ metadata:
   namespace: #@ data.values.serviceNamespace
 spec:
   replicas: #@ data.values.numRabbitMQClusterNodes
+  resources:
+    requests:
+      cpu: 200m
+    limits:
+      cpu: 200m

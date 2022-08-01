@@ -10,8 +10,9 @@ tanzu acc create hungryman --git-repo https://github.com/gm2552/hungryman --git-
 
 ## Prerequisites
 
-These instructions assume that you have a TAP cluster up and running with the following packages installed and [kubectl](https://kubernetes.io/docs/tasks/tools/) installed and configured to access your TAP cluster:
+These instructions assume that you have a TAP iterate cluster (or some variant similar to an iterate cluster) up and running with the following packages installed and [kubectl](https://kubernetes.io/docs/tasks/tools/) and the Tanzu CLI installed and configured to access your TAP cluster:
 
+* Tanzu TAP GUI
 * Tanzu Build Services
 * Tanzu Cloud Native Runtimes
 * Tanzu Service Bindings
@@ -21,11 +22,9 @@ These instructions assume that you have a TAP cluster up and running with the fo
 * Tanzu Source Controller
 * Tanzu AppSSO (required if using the `Enable Security` option).
 
-It is also assumed that you have `kubectl` and the Tanzu CLI installed on your workstation.
-
 ## Quick Start
 
-This section provides a fast track installation of the "simplest" configuration of the Hungry application using the application accelerator and the instructions immediately below.  A more thorough description of the configuration and installation scenarios are describes in subsequent sections of this page.  This section assumes have already installed the application accelerator using the instructions at the top of the page.
+This section provides a fast track installation of the "simplest" configuration of the Hungry application using the application accelerator and the instructions immediately below.  A more thorough description of the configuration and installation scenarios are describes in subsequent sections of this page.  This section assumes you have already installed the application accelerator using the instructions at the top of the page.
 
 * Install Rabbit MQ operator:
 
@@ -33,7 +32,7 @@ This section provides a fast track installation of the "simplest" configuration 
 kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/download/v1.13.1/cluster-operator.yml"
 ```
 
-* Navigate to your TAP GUI web page and Application Accelerator tab on the left of the screen.  Select the `Choose` button on the `Hungrman` Application
+* Navigate to your TAP GUI web page and Application Accelerator tab on the left of the screen.  Select the `Choose` button on the `Hungryman` Application
 
 * Select all defaults except change the `workload-namespace` if need be to a namespace that you have already configured to run workloads (e.g. a developer namespace).  Download and unzip the generate accelerator file to you workstation.
 
@@ -131,9 +130,9 @@ In addition, the Hungryman application has additional deployment options which c
 
 The simplest configuration is to use Spring Cloud Streams; however, using KNative eventing provides for extended capabilities such as scale to zero and auto scaling.  In both options, a Spring Cloud Streams binding implementation is required for moving messages from the `hungryman-search` application; RabbitMQ is the default binding provided.  Neither option requires a change in source code, however different runtime dependencies are configured at build time depending on which eventing implementation is desired.  
 
-For database configuration, the default H2 in memory database is the simplest option and requires no additional database services to be installed, however you will lose all database information with an application restart and can mot scale past one instance.  The MySQL and Postgres options give you persistence and scalability, but require you to install a database operator and provision database instances.  
+For database configuration, the default H2 in memory database is the simplest option and requires no additional database services to be installed, however you will lose all database information with an application restart and can not scale past one instance.  The MySQL and Postgres options give you persistence and scalability, but require you to install a database operator and provision database instances.  
 
-By default, the application has no security.  When choosing the security configuration, you are required to create an AppSSO instance resource as well as a `ClientRegistration` resource for the Hungryman application; the accelerator will generate the resource yaml for you.  You can either use a built in development account, or have the option (in a future release of this accelerator) to connect to external OICD identity providers.
+By default, the application has no security.  When choosing the security configuration, you are required to create an AppSSO instance resource as well as a `ClientRegistration` resource for the Hungryman application; the accelerator will generate the resource yaml for you.  You can either use a built in development account, or have the option (in a future release of this accelerator) to connect to external OIDC identity providers.
 
 **NOTE** For the fastest and easiest path to deploying this application, use the default options of the H2 database and no security.  You will still be required to deploy the RabbitMQ operator out of band, however this step is trivial as explained in the `RabbitMQ Operator` section of this guide.
 

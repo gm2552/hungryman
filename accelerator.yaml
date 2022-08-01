@@ -192,17 +192,12 @@ engine:
       rewriteTo: "'config/app-operator/mysqlResourceClaim.yaml'"     
   - condition:
       "#enableSecurity"
-    include: ["**/appSSOInstance.yaml"]
+    include: ["**/appSSOInstance.yaml", "**/clientRegistrationResourceClaim.yaml"]
     chain:
     - type: YTT  
     - type: RewritePath
       regex: 'templates/appSSOInstance.yaml'
-      rewriteTo: "'config/service-operator/appSSOInstance.yaml'"    
-  - condition:
-      "#enableSecurity"
-    include: ["**/clientRegistration.yaml"]
-    chain:
-    - type: YTT  
+      rewriteTo: "'config/service-operator/appSSOInstance.yaml'"  
     - type: RewritePath
-      regex: 'templates/clientRegistration.yaml'
-      rewriteTo: "'config/app-operator/clientRegistration.yaml'"    
+      regex: 'templates/clientRegistrationResourceClaim.yaml'
+      rewriteTo: "'config/app-operator/clientRegistrationResourceClaim.yaml'"    

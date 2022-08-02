@@ -3,8 +3,6 @@ kind: Resource
 metadata:
   name: hungryman-db
   description: Hungryman application database
-  annotations:
-    'backstage.io/techdocs-ref': dir:.
 spec:
   type: database
   owner: hungryman-team

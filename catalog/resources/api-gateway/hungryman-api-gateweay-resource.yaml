@@ -3,8 +3,6 @@ kind: Resource
 metadata:
   name: hungryman-api-gateway
   description: Hungryman application api gateway
-  annotations:
-    'backstage.io/techdocs-ref': dir:.
 spec:
   type: api-gateway
   owner: hungryman-team

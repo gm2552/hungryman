@@ -3,8 +3,6 @@ kind: Resource
 metadata:
   name: hungryman-messaging
   description: Hungryman application asynch messaging
-  annotations:
-    'backstage.io/techdocs-ref': dir:.
 spec:
   type: message-broker
   owner: hungryman-team

@@ -1,7 +1,7 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: hungryman-notify
+  name: hungryman-search
   namespace: workloads
   labels:
     apps.tanzu.vmware.com/workload-type: web
@@ -23,4 +23,4 @@ spec:
       url: https://github.com/gm2552/hungryman.git
       ref:
         branch: main
-    subPath: hungryman-notify
+    subPath: hungryman-search

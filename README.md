@@ -24,13 +24,13 @@ The value proposition of the Hungryman application is to search for availability
 
 ## Application Architecture
 
-Hungryman consists of four main service modules:
+Hungryman consists of five main service modules:
 
 * A gateway (`hungryman-api-gateway`)
 * A web UI service (`hungryman-ui`)
 * An API service for submitting search requests (`hungryman-search`)
 * A processor service for executing searches against availability sources and managing results (`hungryman-search-proc`)
-* An API service that stores and provides access to availability results
+* An API service that stores and provides access to availability results (`hungryman-availability`)
 
 Hungryman also has two optional components:
 

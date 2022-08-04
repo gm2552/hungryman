@@ -10,7 +10,7 @@ tanzu acc create hungryman --git-repo https://github.com/gm2552/hungryman --git-
 
 ## Prerequisites
 
-These instructions assume that you have a TAP iterate cluster (or some variant similar to an iterate cluster) up and running with the following packages installed and [kubectl](https://kubernetes.io/docs/tasks/tools/) and the Tanzu CLI installed and configured to access your TAP cluster:
+These instructions assume that you have a TAP 1.2.x or greater iterate cluster (or some variant similar to an iterate cluster) up and running with the following packages installed and [kubectl](https://kubernetes.io/docs/tasks/tools/) and the Tanzu CLI installed and configured to access your TAP cluster:
 
 * Tanzu TAP GUI
 * Tanzu Build Services

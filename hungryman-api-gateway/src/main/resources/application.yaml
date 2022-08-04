@@ -8,6 +8,8 @@ hungryman:
     uri: http://hungryman-availability.${hungryman.namespace}/
 
 spring:
+  session:
+    timeout: 60m
   cloud:
     gateway:
       globalcors:

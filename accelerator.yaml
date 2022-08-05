@@ -57,8 +57,6 @@ accelerator:
     choices:
     - value: mysql
       text: MySQL
-    - value: postgres
-      text: Postgres
     - value: h2
       text: H2 (In Memory DB)
     required: true

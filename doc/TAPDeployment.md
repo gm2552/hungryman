@@ -255,13 +255,15 @@ The application's home screen should look similar to the following (assuming you
 
 ## Application Catalog
 
-The Hungryman source repo contains a full TAP catalog configuration that is located in the repository's `catalog` directory including API docs links.  You can registry this catalog within TAP by pointing the Repository URL to the URL of catalog-info.yaml file in the `catalog` directory of the repository.
+The Hungryman source repo contains a full TAP catalog configuration that is located in the repository's `catalog` directory including API docs links.  You can registry this catalog within TAP by pointing the Repository URL to the URL of catalog-info.yaml file in the `catalog` directory of the repository.  
 
 Ex:
 
 ```
 https://github.com/gm2552/hungryman/blob/main/catalog/catalog-info.yaml
 ```
+
+**NOTE:** It is highly recommended that you create your own code repository first and then import the catalog from your repository.  You will most likely need update the URLs in the files below to properly import the catalog which contains component API configuration (API Docs). 
 
 To enable API Docs to work correctly with your deployment, you will need to update the API docs URIs in each of the following files by replacing the `$text` element with the URI of your deployment:
 
@@ -272,4 +274,18 @@ To enable API Docs to work correctly with your deployment, you will need to upda
       - hungryman-availability.yaml
     - hungryman-search
       - hhungryman-search.yaml
-``` 
+```
+
+## Uninstall
+
+To remove the application from your cluster, navigate to the root directory of the unzipped accelerator file and run the following commands to delete all of the created resources:
+
+```
+kubectl delete -f ./config/developer/
+
+kubectl delete -f ./config/app-operator/
+
+kubectl delete -f ./config/service-operator/
+
+kubectl delete ns service-instances
+```

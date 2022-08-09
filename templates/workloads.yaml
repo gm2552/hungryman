@@ -12,7 +12,7 @@
   - name: rmq
     ref:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
-      kind: ResourceClai
+      kind: ResourceClaim
       name: #@ data.values.rabbitMQName
 #@ end
 #@ if usesDB == True and data.values.dbType != "h2":

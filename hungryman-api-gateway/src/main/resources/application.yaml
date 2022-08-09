@@ -19,13 +19,6 @@ spring:
             allowedHeaders: "*"
             allowedMethods: "*"
       routes:
-      - id: hungryman_search_api_route
-        uri: ${hungryman.search.uri}
-        predicates:
-        - Path=/api/search/v3/api-docs/**      
-        - Host=hungryman**.**
-        filters:
-        - RewritePath=/api/search(?<segment>/?.*), $\{segment}
       - id: hungryman_search_route
         uri: ${hungryman.search.uri}
         predicates:
@@ -34,13 +27,6 @@ spring:
         filters:
         - TokenRelay=
         - RewritePath=/api/search(?<segment>/?.*), $\{segment}
-      - id: hungryman_availability_api_route
-        uri: ${hungryman.availability.uri}
-        predicates:
-        - Path=/api/availability/v3/api-docs/**   
-        - Host=hungryman**.**
-        filters:
-        - RewritePath=/api/availability(?<segment>/?.*), $\{segment}
       - id: hungryman_availability_route
         uri: ${hungryman.availability.uri}
         predicates:

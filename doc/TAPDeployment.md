@@ -276,6 +276,32 @@ To enable API Docs to work correctly with your deployment, you will need to upda
       - hhungryman-search.yaml
 ```
 
+You may also be required to enable CORS access in your TAP-GUI configuration in your *tap-values.yaml* file before the catalog will successfully import.  The following is a snippet from the *tap_gui* section of a sample *tap-values.yaml* file.  Pay specific attention to the *reading* section and replace the *host* field with the URL of your deployed Hungryman application.
+
+```
+tap_gui:
+   .
+   .
+   .
+   app_config:
+   .
+   .
+   .
+   backend:
+      baseUrl: http://tap-gui.perfect300rock.com
+      cors:
+        origin: http://tap-gui.perfect300rock.com
+      reading:
+        allow:
+          - host: 'hungryman.perfect300rock.com'      
+```
+
+You will need to update your TAP install with the updated tap-values file before the CORS change takes effect.
+
+```
+tanzu package installed update tap -n tap-install --values-file tap-values.yaml
+```
+
 ## Uninstall
 
 To remove the application from your cluster, navigate to the root directory of the unzipped accelerator file and run the following commands to delete all of the created resources:

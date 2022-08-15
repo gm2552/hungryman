@@ -10,5 +10,5 @@ spec:
   owner: hungryman-team
   system: hungryman
   dependsOn: 
-    - resource:hungryman-search
-    - resource:hungryman-availability
+    - component:hungryman-search
+    - component:hungryman-availability

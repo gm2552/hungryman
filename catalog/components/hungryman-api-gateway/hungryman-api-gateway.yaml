@@ -12,4 +12,4 @@ spec:
   dependsOn: 
     - component:hungryman-ui
     - component:hungryman-search
-    - component:hungryman-availability 
+    - component:hungryman-availability

@@ -7,6 +7,7 @@ metadata:
     'backstage.io/techdocs-ref': dir:.
 spec:
   targets:
+    - ./components/hungryman-api-gateway/hungryman-api-gateway.yaml  
     - ./components/hungryman-ui/hungryman-ui.yaml
     - ./components/hungryman-search/hungryman-search.yaml
     - ./components/hungryman-search-proc/hungryman-search-proc.yaml
@@ -14,6 +15,5 @@ spec:
     - ./components/hungryman-notify/hungryman-notify.yaml
     - ./groups/org.yaml
     - ./systems/hungryman-system.yaml
-    - ./resources/api-gateway/hungryman-api-gateweay-resource.yaml
     - ./resources/db/hungryman-db-resource.yaml
     - ./resources/messaging/hungryman-messaging-resource.yaml  

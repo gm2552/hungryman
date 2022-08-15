@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: hungryman-ui
+  name: hungryman-api-gateway
   annotations:
     "backstage.io/kubernetes-label-selector": "app.kubernetes.io/part-of=hungryman"
 spec:
@@ -10,5 +10,6 @@ spec:
   owner: hungryman-team
   system: hungryman
   dependsOn: 
-    - resource:hungryman-search
-    - resource:hungryman-availability
+    - component:hungryman-ui
+    - component:hungryman-search
+    - component:hungryman-availability 

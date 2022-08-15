@@ -11,5 +11,3 @@ spec:
   system: hungryman
   dependsOn: 
     - component:hungryman-ui
-    - component:hungryman-search
-    - component:hungryman-availability

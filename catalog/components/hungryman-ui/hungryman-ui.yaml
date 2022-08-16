@@ -9,6 +9,6 @@ spec:
   lifecycle: experimental
   owner: hungryman-team
   system: hungryman
-  dependsOn: 
-    - component:hungryman-search
-    - component:hungryman-availability
+  consumesApis: 
+    - hungryman-search
+    - hungryman-availability

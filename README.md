@@ -1,4 +1,14 @@
 # Hungryman
+
+## Deployment Guides
+
+The Hungryman application can technically be deployed on almost any Cloud Native Buildpack enabled platform.  Below are detailed deployment instructions for various platforms:
+
+* [Tanzu Application Platform](doc/TAPDeployment.md)
+* Tanzu Application Services (TBD)
+* Azure Spring Apps Enterprise (TBD)
+
+## Description
 The hungryman dining search solution is a multi micro-service application that implements a relatively contemporary architecture comprised of the following technologies:
 
 * An application/API gateway (Spring Cloud Gateway)
@@ -7,17 +17,11 @@ The hungryman dining search solution is a multi micro-service application that i
 * Reactive Database Access (R2DBC)
 * Asynchronous Eventing (Spring Cloud Streams and Functions)
 * State (Redis)
+* Security (oAuth and Tanzu AppSSO)
 
 Along with Spring Cloud Stream, CloudEvents and KNative eventing are supported as an alternative deployment option with a small change in application dependencies (but no source code changes).  This alternative deployment method also supports KNatvie scale to zero as well as auto scaling. 
 
 The default application configuration supports static out of the box data sets; however, is also contains options to configure alternative data sources.  Lastly, the asynchronous messaging model supports the ability to add applications to the extend functionality.
-
-## Deployment
-
-All services in the Hungryman application can technically be deployed on almost any Java enabled platform (thank you Spring).  Below are detailed deployment instructions for various platforms:
-
-* Tanzu Application Services (TBD)
-* [Tanzu Application Platform](doc/TAPDeployment.md)
 
 ## Use Case
 The value proposition of the Hungryman application is to search for availability at dining establishments.  Unlike other search applications that provide on-demand results of dining availability in real time, Hungryman attempts to ease the frustration of obtaining reservations at establishments that have limited availability (i.e. they are hard to get into).  Real time searches at these types of establishment tend to always show no availability and forces a user to either continually hit a *search* button or come back to the reservation site multiple times to check if availability has opened.  This is wear Hungryman steps in; it takes a set of search parameters such a time window, establish name, establishment type, and/or zip code and continually searches for availability on the users behalf.  The user can come back at a later time and check to see what availability the application has found.  Hungryman continues searching and updating availability results as they change.  A real time event module can also be added that sends real time notifications to a user over a configured medium such as SMS, email, or a proprietary application.

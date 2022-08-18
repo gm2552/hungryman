@@ -15,10 +15,23 @@ import com.java.example.tanzu.hungryman.model.Availability;
 import com.java.example.tanzu.hungryman.repository.AvailabilityRepository;
 import com.java.example.tanzu.hungryman.repository.AvailabilityWindowRepository;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@OpenAPIDefinition(
+        info = @Info(
+                title = "Hungryman Availability Service",
+        		description = "Core hungryman service for retrieving dining availability"),
+        tags = @Tag(
+                name = "Availability REST API",
+                description = "Operations for retrieving dining availability"))
 @CrossOrigin
 @RestController
 @RequestMapping("availability")
@@ -56,6 +69,15 @@ public class AvailabilityResource
 		return UNKNOWN_REQUEST_SUBJECT_ID;
 	}
 	
+	@Operation(summary = "Get all availability across all searches", 
+			description = "Returns all availability regardless of search name for a given logged on user.  If a logged on user"
+					+ " is not present, then a default principal representing non logged on users is applied.")
+    @ApiResponses({
+        @ApiResponse(
+                responseCode = "200",
+                description = "Returns all availability for a user or an empty list if no availability is found."
+        )
+    })
 	@GetMapping
 	public Flux<Availability> getAllAvailabilty(Principal oauth2User)
 	{
@@ -64,6 +86,15 @@ public class AvailabilityResource
 		return getAvailabilityFromFlux(availRepo.findByRequestSubject(reqSub));
 	}
 	
+	@Operation(summary = "Get all availability for a given search name", 
+			description = "Returns all availability for a search namd and logged on user.  If a logged on user"
+					+ " is not present, then a default principal representing non logged on users is applied.")
+    @ApiResponses({
+        @ApiResponse(
+                responseCode = "200",
+                description = "Returns all availability for a user and search name or an empty list if no availability is found."
+        )
+    })
 	@GetMapping("{searchName}")
 	public Flux<com.java.example.tanzu.hungryman.model.Availability> getSearchAvailabilty(@PathVariable("searchName") String searchName, Principal oauth2User)
 	{

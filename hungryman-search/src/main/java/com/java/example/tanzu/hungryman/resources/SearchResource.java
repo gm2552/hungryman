@@ -22,10 +22,25 @@ import org.springframework.web.server.ResponseStatusException;
 import com.java.example.tanzu.hungryman.entity.Search;
 import com.java.example.tanzu.hungryman.repository.SearchRepository;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@OpenAPIDefinition(
+        info = @Info(
+                title = "Hungryman Search Service",
+        		description = "Core hungryman service for submitting searches and parameters"),
+        tags = @Tag(
+                name = "Search Submission REST API",
+                description = "CRUD operations for submiting, retrieving, and deleting searches"))
 @CrossOrigin
 @RestController
 @RequestMapping("search")
@@ -62,6 +77,15 @@ public class SearchResource
 		return UNKNOWN_REQUEST_SUBJECT_ID;
 	}
 	
+	@Operation(summary = "Get all submitted searches", 
+			description = "Returns all submitted searches for a given logged on user.  If a logged on user"
+					+ " is not present, then a default principal representing non logged on users is applied.")
+    @ApiResponses({
+        @ApiResponse(
+                responseCode = "200",
+                description = "Returns all searches for a user or an empty list if no search are found."
+        )
+    })
 	@GetMapping
 	public Flux<Search> getAllSearches( Principal oauth2User)
 	{
@@ -74,6 +98,25 @@ public class SearchResource
     	   });
 	}
 	
+	@Operation(summary = "Submits a new search.", 
+			description = "Submits a new search with a set of search parameters for a logged on user.  If a logged on user"
+					+ " is not present, then a default principal representing non logged on users is applied.")
+    @ApiResponses({
+        @ApiResponse(
+                responseCode = "201",
+                description = "The search was successfully submitted"
+        ),
+        @ApiResponse(
+                responseCode = "400",
+                description = "The search time window has already passed",
+                content = @Content(schema = @Schema(hidden = true))
+        ),
+        @ApiResponse(
+                responseCode = "409",
+                description = "A search with the same name for the calling user already exists",
+                content = @Content(schema = @Schema(hidden = true))
+        )
+    })
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)  
 	@ResponseStatus(HttpStatus.CREATED)
 	public Mono<Search> addSearch(@RequestBody Search search, Principal oauth2User)
@@ -113,6 +156,15 @@ public class SearchResource
     	   
 	}
 	
+	@Operation(summary = "Deletes submitted search.", 
+			description = "Deletes an existing submitted search.  If a logged on user"
+					+ " is not present, then a default principal representing non logged on users is applied.")	
+    @ApiResponses({
+        @ApiResponse(
+                responseCode = "200",
+                description = "The search was successfully deleted"
+        )
+    })
 	@DeleteMapping("{id}") 
 	public Mono<Void> deleteSearch(@PathVariable("id") Long id)
 	{

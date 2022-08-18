@@ -30,4 +30,4 @@ spec:
   owner: hungryman-team
   system: hungryman
   definition:
-    $text: http://hungryman.perfect300rock.com/api/search/v3/api-docs/
+    $text: https://hungryman.perfect300rock.com/api/search/v3/api-docs/

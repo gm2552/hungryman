@@ -1,15 +1,15 @@
 accelerator:
   displayName: Hungryman
-  description: A polygot multi-service application of a ReactJS frontend and Spring backend services along with eventing and security (including SSO) optionality.
+  description: A polygot multi-service demo application of a ReactJS frontend and Spring backend services along with eventing and security (including SSO) optionality.
   iconUrl: https://github.com/gm2552/hungryman/raw/main/icons/hungryman.png
   tags:
   - java
   - spring
   - sso
-  - security
   - sql
   - messaging
   - function
+  - educational
 
   options:
   - label: Workload Namespace

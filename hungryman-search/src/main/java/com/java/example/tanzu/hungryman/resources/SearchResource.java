@@ -142,7 +142,7 @@ public class SearchResource
 		{
 			if (StringUtils.hasText(foundSearch.getName()))
 			{
-				log.error("Search name {} already exists.");
+				log.error("Search name {} already exists.", search.getName());
 				return Mono.error(new ResponseStatusException(HttpStatus.CONFLICT));
 			}
 				

@@ -58,26 +58,7 @@ public class SearchProcessor
 								
 								return cache.setHashForKey(key, hash, expiration)
 										.then(Mono.just(avail));
-							});	
-										
-//						return redisTemplate.opsForValue().get(key)
-//							.switchIfEmpty(Mono.just("")) 
-//							.flatMap(value -> 
-//							{
-//								final var hash = generateHash(avail);
-//								
-//								if (StringUtils.hasText(value))
-//									if (hash.equals(value))
-//										return Mono.empty();
-//	
-//								/*
-//								 * Expire the entry after the search window has passed
-//								 */
-//								var expiration = Duration.ofMillis(Math.abs(crit.getEndTime() - System.currentTimeMillis()));
-//								
-//								return redisTemplate.opsForValue().set(key, generateHash(avail), expiration)
-//											.then(Mono.just(avail));
-//							});					
+							});															
 				});
 			});		
 	}

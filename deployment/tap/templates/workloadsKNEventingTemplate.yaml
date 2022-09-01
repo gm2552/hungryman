@@ -27,7 +27,11 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman
+    networking.knative.dev/visibility: cluster-local
 spec:
+  env:
+  - name: spring_profiles_active
+    value: mysql
   params:
   - name: annotations
     value: 
@@ -65,7 +69,7 @@ spec:
     git:
       url: https://github.com/gm2552/hungryman.git
       ref:
-        branch: kneventing
+        branch: main
     subPath: hungryman-search-proc
     
 ---
@@ -84,7 +88,7 @@ spec:
     git:
       url: https://github.com/gm2552/hungryman.git
       ref:
-        branch: kneventing
+        branch: main
     subPath: hungryman-notify
 ---
 
@@ -96,7 +100,11 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman
+    networking.knative.dev/visibility: cluster-local
 spec:
+  env:
+  - name: spring_profiles_active
+    value: mysql
   params:
   - name: annotations
     value: 
@@ -116,7 +124,7 @@ spec:
     git:
       url: https://github.com/gm2552/hungryman.git
       ref:
-        branch: kneventing
+        branch: main
     subPath: hungryman-availability
     
 ---
@@ -124,11 +132,12 @@ spec:
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: hungrymam
+  name: hungryman-ui
   namespace: workload_namespace
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman
+    networking.knative.dev/visibility: cluster-local
 spec:
   params:
   - name: annotations
@@ -139,4 +148,4 @@ spec:
       url: https://github.com/gm2552/hungryman.git
       ref:
         branch: main
-    subPath: hungryman-api-gateway
+    subPath: hungryman-ui

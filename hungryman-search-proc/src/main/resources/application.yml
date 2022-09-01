@@ -1,6 +1,13 @@
+management:
+  health:
+    redis:
+      enabled: false
+
 spring: 
   cloud: 
     stream:
+      function:
+        definition: processSearch
       bindings: 
         processSearch-in-0: 
           destination: hungryman-search-criteria
@@ -103,3 +110,12 @@ hungryman:
       postalCode: 64112
       reservationURL: 'https://www.konagrill.com/reservations'
       
+---
+
+spring:
+  config.activate.on-profile: redis
+  
+management:
+  health:
+    redis:
+      enabled: true

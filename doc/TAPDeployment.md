@@ -164,7 +164,7 @@ kubectl apply -f "https://github.com/rabbitmq/messaging-topology-operator/releas
 
 If you choose to use the KNative eventing deployment option, you also need to deploy the KNatvie RabbitMQ Eventing Source resources.  The eventing source acts as a bridge between messages emitted by the `hungryman-search` application and the rest of the downstream services.
 
-*NOTE:* The RabbitMQ Eventing source is pre-installed into your TAP deployment if you have chosen to deploy the Cloud Native Runtimes package.  However; TAP versions 1.2.x and below do not have an up to date version that will work with some of the declared resources in these instructions.  These instruction require RabbitMQ Eventing 1.4.0 or later.
+*NOTE:* The RabbitMQ Eventing source is pre-installed into your TAP deployment if you have chosen to deploy the Cloud Native Runtimes package.  However; TAP versions 1.2.x and below do not have an up to date version that will work with some of the declared resources in these instructions.  These instruction require TAP 1.3.x or greater.
 
 
 ## MySQL Installation

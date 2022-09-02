@@ -1,5 +1,6 @@
 #@ load("@ytt:data", "data")
 
+
 #@ def buildServiceClaimsBinding(usesDB,usesRMQ,usesSec):
 #@ if usesSec == True and data.values.enableSecurity == True:
   - name: sso
@@ -24,31 +25,46 @@
 #@ end     
 #@ end
 
+
 #@ def buildAppEnv(addSecProf,addDBProf):
 #@ profiles = ""
-
 #@ if addSecProf == True and data.values.enableSecurity == True:
 #@ profiles = "secure"
 #@ end
-
 #@ if addDBProf == True and data.values.dbType == "mysql":
 #@ if profiles != "":
 #@    profiles = profiles + ","
 #@ end
 #@ profiles = profiles + "mysql"
 #@ end
-
 #@ if profiles != "":
   - name: spring_profiles_active
     value: #@ profiles
 #@ end
 #@ end
 
+
 #@ def buildUIGitBranch():
 #@ if data.values.enableSecurity == True:
 #@ return "secure-ui"
 #@ end
 #@ return "main"
+#@ end
+
+
+#@ def buildBuildParams():
+#@ if data.values.enableCloudEvents == True:
+  - name: BP_MAVEN_BUILD_ARGUMENTS
+    value: '-P native -Dmaven.test.skip=true --no-transfer-progress package'
+#@ end
+#@ end
+
+#@ def buildParams():
+#@ if data.values.enableCloudEvents != True:
+  - name: annotations
+    value: 
+      autoscaling.knative.dev/minScale: "1"
+#@ end
 #@ end
 
 ---
@@ -59,7 +75,7 @@ metadata:
   namespace: #@ data.values.workloadNamespace
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: hungryman
+    app.kubernetes.io/part-of: hungryman-api-gateway
 spec:
   env: #@ buildAppEnv(True,False)
   params:
@@ -82,7 +98,7 @@ metadata:
   namespace: #@ data.values.workloadNamespace
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: hungryman
+    app.kubernetes.io/part-of: hungryman-search
     networking.knative.dev/visibility: cluster-local
 spec:
   env: #@ buildAppEnv(True,True)
@@ -106,13 +122,12 @@ metadata:
   namespace: #@ data.values.workloadNamespace
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: hungryman
+    app.kubernetes.io/part-of: hungryman-search-proc
     networking.knative.dev/visibility: cluster-local
 spec:
-  params:
-  - name: annotations
-    value: 
-      autoscaling.knative.dev/minScale: "1"
+  build:
+     env: #@ buildBuildParams()
+  params: #@ buildParams()
   serviceClaims: #@ buildServiceClaimsBinding(False, True, False)
   source:
     git:
@@ -130,13 +145,12 @@ metadata:
   namespace: #@ data.values.workloadNamespace
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: hungryman
+    app.kubernetes.io/part-of: hungryman-notify
     networking.knative.dev/visibility: cluster-local
 spec:
-  params:
-  - name: annotations
-    value: 
-      autoscaling.knative.dev/minScale: "1"
+  build:
+     env: #@ buildBuildParams()
+  params: #@ buildParams()
   serviceClaims: #@ buildServiceClaimsBinding(False, True, False)
   source:
     git:
@@ -153,9 +167,11 @@ metadata:
   namespace: #@ data.values.workloadNamespace
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: hungryman
+    app.kubernetes.io/part-of: hungryman-availability
     networking.knative.dev/visibility: cluster-local
 spec:
+  build:
+     env: #@ buildBuildParams()
   env: #@ buildAppEnv(True,True)
   params:
   - name: annotations
@@ -177,14 +193,13 @@ metadata:
   namespace: #@ data.values.workloadNamespace
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: hungryman
+    app.kubernetes.io/part-of: hungryman-ui
     networking.knative.dev/visibility: cluster-local
 spec:
   params:
   - name: annotations
     value: 
       autoscaling.knative.dev/minScale: "1"   
-      app.kubernetes.io/part-of: hungryman
   source:
     git:
       url: https://github.com/gm2552/hungryman.git

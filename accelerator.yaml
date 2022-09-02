@@ -87,6 +87,13 @@ accelerator:
     inputType: checkbox
     dataType: boolean
     required: true
+  - label: Enable Cloud Events
+    description: "If set to true, the application will use CloudEvents and KNative as the internal eventing/messagiung model instead of spring cloud streams."
+    defaultValue: false
+    name: enableCloudEvents
+    inputType: checkbox
+    dataType: boolean
+    required: true
   - label: Enable Security (Experimental)
     description: "If set to true, security will enabled on the application and APIs.  You will need to provide additional security configuation in the subsequent sections below."
     defaultValue: false
@@ -188,6 +195,14 @@ engine:
     - type: RewritePath
       regex: 'templates/mysqlResourceClaim.yaml'
       rewriteTo: "'config/app-operator/mysqlResourceClaim.yaml'"     
+  - condition:
+      "#enableCloudEvents"
+    include: ["**/knEventing.yaml"]
+    chain:
+    - type: YTT  
+    - type: RewritePath
+      regex: 'templates/knEventing.yaml'
+      rewriteTo: "'config/app-operator/knEventing.yaml'"  
   - condition:
       "#enableSecurity"
     include: ["**/appSSOInstance.yaml", "**/clientRegistrationResourceClaim.yaml"]

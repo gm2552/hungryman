@@ -11,19 +11,3 @@ spec:
   system: hungryman
   dependsOn: 
     - resource:hungryman-messaging
----
-apiVersion: backstage.io/v1alpha1
-kind: API
-metadata:
-  name: hungryman-search
-  description: The Search API
-  tags:
-    - api
-    - tanzu
-spec:
-  type: openapi
-  lifecycle: experimental
-  owner: hungryman-team
-  system: hungryman
-  definition:
-    $text: http://hungryman.perfect300rock.com/api/search/v3/api-docs/

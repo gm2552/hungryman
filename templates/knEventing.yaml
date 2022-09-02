@@ -1,0 +1,105 @@
+#@ load("@ytt:data", "data")
+
+---
+apiVersion: flows.knative.dev/v1
+kind: Sequence
+metadata:
+  name: hungryman-sequence
+  namespace: #@ data.values.workloadNamespace
+spec:
+  steps:
+    - ref:
+        apiVersion: serving.knative.dev/v1
+        kind: Service
+        name: hungryman-search-proc
+      uri: /processSearch
+    - ref:
+      uri: #@ 'http://hungryman-available-parallel-kn-parallel-kn-channel.' + data.values.workloadNamespace + '.svc.cluster.local'
+---
+apiVersion: flows.knative.dev/v1
+kind: Parallel
+metadata:
+  name: hungryman-available-parallel
+  namespace: #@ data.values.workloadNamespace
+spec:
+  branches:
+    - subscriber:
+        ref:
+          apiVersion: serving.knative.dev/v1
+          kind: Service
+          name: hungryman-availability
+        uri: /processAvailability
+    - subscriber:
+        ref:
+          apiVersion: serving.knative.dev/v1
+          kind: Service
+          name: hungryman-notify
+        uri: /notifyAvailability
+
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: Exchange
+metadata:
+  labels:
+    eventing.knative.dev/SourceName: hungryman-search-criteria-rabbit-source
+  name: hungryman-search-criteria-exchnage
+  namespace: #@ data.values.workloadNamespace
+spec:
+  durable: true
+  name: hungryman-search-criteria
+  rabbitmqClusterReference:
+    name: #@ data.values.rabbitMQName
+    namespace: #@ data.values.serviceNamespace
+  type: topic
+  vhost: /
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: Queue
+metadata:
+  labels:
+    eventing.knative.dev/SourceName: hungryman-search-criteria-rabbit-source
+  name: hungryman-search-criteria-queue
+  namespace: #@ data.values.workloadNamespace
+spec:
+  durable: true
+  autoDelete: false
+  name: hungryman-search-criteria
+  rabbitmqClusterReference:
+    name: #@ data.values.rabbitMQName
+    namespace: #@ data.values.serviceNamespace
+  type: quorum
+  vhost: /
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: Binding
+metadata:
+  labels:
+    eventing.knative.dev/SourceName: hungryman-search-criteria-rabbit-source
+  name: hungryman-search-criteria-binding
+  namespace: #@ data.values.workloadNamespace
+spec:
+  source: hungryman-search-criteria
+  destination: hungryman-search-criteria
+  destinationType: queue
+  routingKey: "#"
+  rabbitmqClusterReference:
+    name: #@ data.values.rabbitMQName
+    namespace: #@ data.values.serviceNamespace
+  vhost: /
+---
+apiVersion: sources.knative.dev/v1alpha1
+kind: RabbitmqSource
+metadata:
+  name: hungryman-search-criteria-rabbit-source
+  namespace: #@ data.values.workloadNamespace
+spec:
+
+  rabbitmqClusterReference:
+    name: #@ data.values.rabbitMQName
+    namespace: #@ data.values.serviceNamespace
+  rabbitmqResourcesConfig:
+    predeclared: true 
+    parallelism: 5
+    queueName: hungryman-search-criteria
+  sink:
+    uri: #@ 'http://hungryman-sequence-kn-sequence-0-kn-channel.' + data.values.workloadNamespace + '.svc.cluster.local'

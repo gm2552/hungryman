@@ -94,6 +94,16 @@ accelerator:
     inputType: checkbox
     dataType: boolean
     required: true
+  - label: Use RabbitMQ KNative Eventing Broker
+    description: "If set to true, the application will use a RabbitMQ backed eventing broker."
+    defaultValue: false
+    name: enableRabbitMQBroker
+    inputType: checkbox
+    dataType: boolean
+    required: true 
+    dependsOn: 
+      name: enableCloudEvents
+      value: true
   - label: Enable Security (Experimental)
     description: "If set to true, security will enabled on the application and APIs.  You will need to provide additional security configuation in the subsequent sections below."
     defaultValue: false

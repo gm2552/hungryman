@@ -150,9 +150,9 @@ kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/download
 
 If successfully installed, there will be an RabbitMQ cluster operator pod running in the `rabbitmq-system` namespace.
 
-### RabbitMQ Topology Operator (Experimental)
+### RabbitMQ Topology Operator
 
-If you choose to use the KNative eventing deployment option, you will also need to deploy the RabbitMQ Topology Operator.  This operator allows for the declarative creation of resources like RabbitMQ exchanges, queues, and bindings.  The topology operator is a dependency of the KNative RabbitMQ Source resource which will be covered in the next section. 
+If you choose to use the KNative eventing deployment option, you will also need to deploy the RabbitMQ Topology Operator.  This operator allows for the declarative creation of resources like RabbitMQ exchanges, queues, and bindings.  The topology operator is a dependency of the KNative RabbitMQ source resource.  The RabbitMQ source acts as a bridge between messages emitted by the `hungryman-search` application and the rest of the downstream services. 
 
 To install the RabbitMQ Topology operator, run the following command against your cluster. 
 
@@ -160,12 +160,7 @@ To install the RabbitMQ Topology operator, run the following command against you
 kubectl apply -f "https://github.com/rabbitmq/messaging-topology-operator/releases/latest/download/messaging-topology-operator-with-certmanager.yaml"
 ```
 
-### RabbitMQ Eventing Source (Experimental)
-
-If you choose to use the KNative eventing deployment option, you also need to deploy the KNatvie RabbitMQ Eventing Source resources.  The eventing source acts as a bridge between messages emitted by the `hungryman-search` application and the rest of the downstream services.
-
-*NOTE:* The RabbitMQ Eventing source is pre-installed into your TAP deployment if you have chosen to deploy the Cloud Native Runtimes package.  However; TAP versions 1.2.x and below do not have an up to date version that will work with some of the declared resources in these instructions.  These instruction require TAP 1.3.x or greater.
-
+*NOTE:* The RabbitMQ Eventing source is pre-installed into your TAP deployment if you have chosen to deploy the Cloud Native Runtimes package.  However; TAP versions 1.2.x and below do not have an up to date version that will work with some of the declared resources in these instructions.  The eventing model is only supported with TAP 1.3.x or greater.
 
 ## MySQL Installation
 
@@ -195,7 +190,9 @@ The accelerator contains the following configuration options:
 * **Database Type:** The type of database that will be used for the services to store data.  Current options are H2, MySQL, and Postgres (not yet supported).  If anything other than H2 is selected, you will be asked to configure additional database properties.
 * **Database Name:**  The name of the database resource that the micro-services will connect to.  If a new database resource is to be created, this will be the name of the resource.  This name will also be propagated to the `workload.yaml` files in the resource claim section to indicate the names of the database that micro-services should connect to.
 * **Create Database Definition:** If this box is checked, the accelerator will generate a file named `mysqlInstance.yaml` in the `config/service-operator` directory that contains the configuration to create the database instance.
-* **Create Resource Claim Definition for Service:** If this box is checked, the accelerator will generate configuration yaml file in the `config/app-operator` directory that contain the resource definition for the resource claims that the micro-services can use to create service bindings to external service like RabbitMQ and database.  It also creates resource definitions used by the Tanzu CLI to manage service instances and resource claims. 
+* **Create Resource Claim Definition for Service:** If this box is checked, the accelerator will generate a configuration yaml file in the `config/app-operator` directory that contains the resource definition for the resource claims that the micro-services can use to create service bindings to external service like RabbitMQ and database.  It also creates resource definitions used by the Tanzu CLI to manage service instances and resource claims. 
+* **Enable Cloud Events:** If this box is checked, the accelerator will generate a configuration yaml file in the `config/app-operator` directory that contains the resource definitions for the KNative eventing resources.  These include the RabbitMQ source as well as the broker and trigger configurations for routing events to downstream services.  This will also configure applicable services to remove the Spring Cloud Stream binding libraries from the build process.
+* **Enable Cloud Events:** If this box is checked, the KNative broker will use a RabbitMQ broker implementation.
 * **Enable Security:** If this box is checked, the accelerator configure the applications to use a `secure` profile that will require the UI application authenticate users and for micro-services to require valid oAuth tokens with each request.  The accelerator will also generate a file named `appSSOInstance.yaml` in the `config/service-operator` directory that contains the configuration to create an AppSSO authorization server.  It will also generate a file named `clientRegistrationResourceClaim.yaml` in the `config/app-operator` directory that contains configuration for creating a ClientRegistration resource as well as the resource claims that the micro-services can use to create service bindings to AppSSO instance (via the ClientRegistration).  **NOTE:**  Security is not completely functional at this time.
 * **AppSSO Instance Name:**  If security is enabled, the name of the AppSSO resource that the micro-services will connect to.  This name will also be propagated to the `workload.yaml` files in the resource claim section to indicate the names of the AppSOO resource that micro-services should connect to.
 * **Issuer URI:**  If security is enabled, this is the full issuer URI used by the AppSSO instance.  This URI will also be used to create `Service` and `HTTPProxy` resources for Ingress to the AppSSO instance.  Make sure the URI is routed to your cluster.  You will likely need to register the host name of the issuer URI with your DNS provider to route to your cluster's Ingress load balancer.

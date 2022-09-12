@@ -55,9 +55,9 @@ The default build and deployment architecture uses Spring Cloud Streams as the a
 
 ### KNative Eventing 
 
-The `kneventing` branch of the Hungryman repository contains build configuration that removes Spring Cloud Streams dependencies and relies on the Spring Cloud Function webflux library for receiving events over HTTP.  KNative eventing fully embraces this paradigm and integrates seamlessly with functions exposed via the Spring Cloud Functions module.
+The *Cloud Events* option of the Hungryman application contains build configuration that removes Spring Cloud Streams dependencies and relies on the Spring Cloud Function webflux library for receiving events over HTTP.  KNative eventing fully embraces this paradigm and integrates seamlessly with functions exposed via the Spring Cloud Functions module.
 
-The architecture still uses Spring Cloud Streams as the messaging implementation for initially emitting searches, and then a KNative source implementation is inserted to create a bridge between the Spring Cloud Streams binding and the downstream KNative eventing concepts.  For the RabbitMQ implementation, a KNative RabbitMQ Source is declared to read events from a RabbitMQ exchange and propagate them through KNative eventing down to the subscribing services.  The following is a diagram of the KNative event concepts used for Hungryman:
+The architecture still uses Spring Cloud Streams as the messaging implementation for initially emitting searches, and a KNative `source` is inserted to create a bridge between the Spring Cloud Streams binding and the downstream KNative eventing concepts.  For the RabbitMQ implementation, a KNative RabbitMQ Source is declared to read events from a RabbitMQ exchange and propagate them through KNative eventing down to the subscribing services.  The following is a diagram of the KNative event concepts used for Hungryman:
 
 ![](doc/images/KNativeEventing.png)  
 

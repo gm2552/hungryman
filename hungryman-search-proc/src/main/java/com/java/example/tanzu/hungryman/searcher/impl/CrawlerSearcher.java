@@ -28,6 +28,7 @@ public class CrawlerSearcher implements Searcher
 			.map(avail -> 
 			{
 				avail.setSearchName(crit.getName());
+				avail.setRequestSubject(crit.getRequestSubject());
 				
 				return avail;
 			});

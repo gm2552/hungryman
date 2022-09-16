@@ -26,11 +26,11 @@ public class CrawlerSearcher implements Searcher
 	@Override
 	public Flux<Availability> search(SearchCriteria crit) 
 	{
+		log.info("Making crawler dining search for dining search {}", crit.getName());
+		
 		return crawlClient.search(crit.getDiningNames(), crit.getDiningTypes())
 			.map(avail -> 
 			{
-				
-				log.info("Making crawler dining search for dining search {}", crit.getName());
 				avail.setSearchName(crit.getName());
 				avail.setRequestSubject(crit.getRequestSubject());
 				

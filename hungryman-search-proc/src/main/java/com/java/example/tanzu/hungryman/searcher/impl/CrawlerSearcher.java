@@ -10,11 +10,13 @@ import com.java.example.tanzu.hungryman.model.Availability;
 import com.java.example.tanzu.hungryman.model.SearchCriteria;
 import com.java.example.tanzu.hungryman.searcher.Searcher;
 
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 
 @Component
 @Profile("crawler")
 @Primary
+@Slf4j
 public class CrawlerSearcher implements Searcher
 {
 
@@ -27,6 +29,8 @@ public class CrawlerSearcher implements Searcher
 		return crawlClient.search(crit.getDiningNames(), crit.getDiningTypes())
 			.map(avail -> 
 			{
+				
+				log.info("Making crawler dining search for dining search {}", crit.getName());
 				avail.setSearchName(crit.getName());
 				avail.setRequestSubject(crit.getRequestSubject());
 				

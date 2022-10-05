@@ -14,5 +14,6 @@ import reactor.core.publisher.Flux;
 public interface CrawlerClient 
 {
 	@GetMapping("/search")
-	public Flux<Availability> search(@RequestParam("diningNames") String diningNames, @RequestParam("diningTypes") String diningTypes);
+	public Flux<Availability> search(@RequestParam("diningNames") String diningNames, @RequestParam("diningTypes") String diningTypes,
+			@RequestParam("startTime") Long startTime, @RequestParam("endTime") Long endTime);
 }

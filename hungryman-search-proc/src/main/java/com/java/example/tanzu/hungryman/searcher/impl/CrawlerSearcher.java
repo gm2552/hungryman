@@ -28,7 +28,7 @@ public class CrawlerSearcher implements Searcher
 	{
 		log.info("Making crawler dining search for dining search {}", crit.getName());
 		
-		return crawlClient.search(crit.getDiningNames(), crit.getDiningTypes())
+		return crawlClient.search(crit.getDiningNames(), crit.getDiningTypes(), crit.getStartTime(), crit.getEndTime())
 			.map(avail -> 
 			{
 				avail.setSearchName(crit.getName());

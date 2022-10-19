@@ -9,9 +9,11 @@ import org.springframework.context.annotation.Configuration;
 import com.java.example.tanzu.hungryman.entity.Search;
 import com.java.example.tanzu.hungryman.repository.SearchRepository;
 
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 
 @Configuration
+@Slf4j
 public class SearchSupplier
 {
 	@Autowired
@@ -22,7 +24,10 @@ public class SearchSupplier
 	{
 		return () ->
 		{
+			
 			final var curTime = System.currentTimeMillis();
+			
+			log.info("Gathering and sending all active searches to downstream processing");
 			
 			/*
 			 * If the requested end time has passed, then don't search

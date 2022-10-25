@@ -1,11 +1,11 @@
-hungryman:
+where-for-dinner:
   namespace: ${spring.cloud.kubernetes.client.namespace}
   ui:
-    uri: http://hungryman-ui.${hungryman.namespace}/
+    uri: http://hungryman-ui.${where-for-dinner.namespace}/
   search:
-    uri: http://hungryman-search.${hungryman.namespace}/
+    uri: http://hungryman-search.${where-for-dinner.namespace}/
   availability:
-    uri: http://hungryman-availability.${hungryman.namespace}/
+    uri: http://hungryman-availability.${where-for-dinner.namespace}/
 
 spring:
   session:
@@ -20,8 +20,8 @@ spring:
             allowedHeaders: "*"
             allowedMethods: "*"
       routes:
-      - id: hungryman_search_route
-        uri: ${hungryman.search.uri}
+      - id: where-for-dinner_search_route
+        uri: ${where-for-dinner.search.uri}
         predicates:
         - Path=/api/search/**      
         - Host=hungryman**.**
@@ -29,8 +29,8 @@ spring:
         - TokenRelay=
         - RewritePath=/api/search(?<segment>/?.*), $\{segment}
         - RemoveRequestHeader=Forwarded
-      - id: hungryman_availability_route
-        uri: ${hungryman.availability.uri}
+      - id: where-for-dinner_availability_route
+        uri: ${where-for-dinner.availability.uri}
         predicates:
         - Path=/api/availability/** 
         - Host=hungryman**.**
@@ -38,13 +38,13 @@ spring:
         - TokenRelay=
         - RewritePath=/api/availability(?<segment>/?.*), $\{segment}
         - RemoveRequestHeader=Forwarded
-      - id: hungryman_ui_route
-        uri: ${hungryman.ui.uri}
+      - id: where-for-dinner_ui_route
+        uri: ${where-for-dinner.ui.uri}
         predicates:
         - Host=hungryman**.**
         - Path=/diningsearch
-      - id: hungryman_ui_route
-        uri: ${hungryman.ui.uri}
+      - id: where-for-dinner_ui_route
+        uri: ${where-for-dinner.ui.uri}
         predicates:
         - Host=hungryman**.**
         - Path=/**
@@ -55,7 +55,7 @@ spring:
 
 
 #Local profile forwards to local instances  
-hungryman:
+where-for-dinner:
   namespace: workloads
   ui:
     uri: http://localhost:3000/   # default used by npm start

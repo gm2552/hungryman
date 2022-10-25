@@ -1,4 +1,4 @@
-hungryman:
+where-for-dinner:
   notifications:
     logger:
        enabled: true
@@ -12,8 +12,8 @@ spring:
         definition: notifyAvailability
       bindings: 
         notifyAvailability-in-0: 
-          destination: hungryman-search-result
-          group: hungryman-notify-group
+          destination: where-for-dinner-search-result
+          group: where-for-dinner-notify-group
           consumer: 
             maxAttempts: 4
             backOffInitialInterval: 15000

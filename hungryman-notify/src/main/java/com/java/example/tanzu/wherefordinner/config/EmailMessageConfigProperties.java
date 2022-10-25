@@ -1,4 +1,4 @@
-package com.java.example.tanzu.hungryman.config;
+package com.java.example.tanzu.wherefordinner.config;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import lombok.Data;
  *
  */
 @Configuration
-@ConfigurationProperties(prefix = "hungryman.notifications.email") 
+@ConfigurationProperties(prefix = "where-for-dinner.notifications.email") 
 @Data
 public class EmailMessageConfigProperties 
 {

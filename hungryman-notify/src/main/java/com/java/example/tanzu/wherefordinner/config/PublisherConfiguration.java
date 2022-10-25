@@ -1,17 +1,17 @@
-package com.java.example.tanzu.hungryman.config;
+package com.java.example.tanzu.wherefordinner.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import com.java.example.tanzu.hungryman.publisher.EmailPublisher;
-import com.java.example.tanzu.hungryman.publisher.LoggerPublisher;
+import com.java.example.tanzu.wherefordinner.publisher.EmailPublisher;
+import com.java.example.tanzu.wherefordinner.publisher.LoggerPublisher;
 
 @Configuration
 public class PublisherConfiguration 
 {
-	@ConditionalOnProperty(name="hungryman.notifications.email.to")
+	@ConditionalOnProperty(name="where-for-dinner.notifications.email.to")
 	@Bean
 	public EmailPublisher emailPublisher(final JavaMailSender mailSender, 
 			final EmailMessageConfigProperties props)
@@ -19,7 +19,7 @@ public class PublisherConfiguration
 		return new EmailPublisher(mailSender, props);
 	}
 	
-	@ConditionalOnProperty(name="hungryman.notifications.logger.enabled", havingValue="true")
+	@ConditionalOnProperty(name="where-for-dinner.notifications.logger.enabled", havingValue="true")
 	@Bean
 	public LoggerPublisher loggerPublisher()
 	{

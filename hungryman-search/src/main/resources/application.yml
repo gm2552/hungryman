@@ -5,7 +5,7 @@ server:
   # https://springdoc.org/faq.html#_how_can_i_deploy_springdoc_openapi_ui_behind_a_reverse_proxy
   forward-headers-strategy: framework
 
-hungryman:
+where-for-dinner:
   searchEvent:
     period: 120000
     
@@ -16,15 +16,15 @@ spring:
   cloud: 
     stream:
       poller:
-        fixed-delay: ${hungryman.searchEvent.period} 
+        fixed-delay: ${where-for-dinner.searchEvent.period} 
       function:
         definition: submittedSearches
       bindings: 
         submittedSearches-out-0: 
-          destination: hungryman-search-criteria
+          destination: where-for-dinner-search-criteria
 
 springdoc:
-  packages-to-scan: com.java.example.tanzu.hungryman.resources
+  packages-to-scan: com.java.example.tanzu.where-for-dinner.resources
   show-spring-cloud-functions: false
           
 ---

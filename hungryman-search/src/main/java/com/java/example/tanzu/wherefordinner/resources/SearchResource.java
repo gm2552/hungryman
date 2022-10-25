@@ -1,4 +1,4 @@
-package com.java.example.tanzu.hungryman.resources;
+package com.java.example.tanzu.wherefordinner.resources;
 
 
 import java.security.Principal;
@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.java.example.tanzu.hungryman.entity.Search;
-import com.java.example.tanzu.hungryman.repository.SearchRepository;
+import com.java.example.tanzu.wherefordinner.entity.Search;
+import com.java.example.tanzu.wherefordinner.repository.SearchRepository;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,8 +36,8 @@ import reactor.core.publisher.Mono;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "Hungryman Search Service",
-        		description = "Core hungryman service for submitting searches and parameters"),
+                title = "Where for Dinner Search Service",
+        		description = "Core Where for Dinner  service for submitting searches and parameters"),
         tags = @Tag(
                 name = "Search Submission REST API",
                 description = "CRUD operations for submiting, retrieving, and deleting searches"))

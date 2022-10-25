@@ -1,4 +1,4 @@
-package com.java.example.tanzu.hungryman.functions;
+package com.java.example.tanzu.wherefordinner.functions;
 
 import java.util.function.Supplier;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.function.context.PollableBean;
 import org.springframework.context.annotation.Configuration;
 
-import com.java.example.tanzu.hungryman.entity.Search;
-import com.java.example.tanzu.hungryman.repository.SearchRepository;
+import com.java.example.tanzu.wherefordinner.entity.Search;
+import com.java.example.tanzu.wherefordinner.repository.SearchRepository;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;

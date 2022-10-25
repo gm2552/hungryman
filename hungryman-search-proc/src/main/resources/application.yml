@@ -10,18 +10,18 @@ spring:
         definition: processSearch
       bindings: 
         processSearch-in-0: 
-          destination: hungryman-search-criteria
-          group: hungryman-search-criteria-group
+          destination: where-for-dinner-search-criteria
+          group: where-for-dinner-search-criteria-group
           consumer: 
             maxAttempts: 4
             backOffInitialInterval: 15000
             backOffMaxInterval: 60000 
         processSearch-out-0: 
-          destination: hungryman-search-result
+          destination: where-for-dinner-search-result
 
 server.port: 8083
       
-hungryman:
+where-for-dinner:
 
   randomsearcher:
     establishments:

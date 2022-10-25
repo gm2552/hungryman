@@ -1,14 +1,14 @@
-package com.java.example.tanzu.hungryman.searcher.impl;
+package com.java.example.tanzu.wherefordinner.searcher.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import com.java.example.tanzu.hungryman.feign.CrawlerClient;
-import com.java.example.tanzu.hungryman.model.Availability;
-import com.java.example.tanzu.hungryman.model.SearchCriteria;
-import com.java.example.tanzu.hungryman.searcher.Searcher;
+import com.java.example.tanzu.wherefordinner.feign.CrawlerClient;
+import com.java.example.tanzu.wherefordinner.model.Availability;
+import com.java.example.tanzu.wherefordinner.model.SearchCriteria;
+import com.java.example.tanzu.wherefordinner.searcher.Searcher;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;

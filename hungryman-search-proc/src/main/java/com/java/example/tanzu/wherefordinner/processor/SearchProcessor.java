@@ -1,4 +1,4 @@
-package com.java.example.tanzu.hungryman.processor;
+package com.java.example.tanzu.wherefordinner.processor;
 
 import java.time.Duration;
 
@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.java.example.tanzu.hungryman.model.Availability;
-import com.java.example.tanzu.hungryman.model.SearchCriteria;
-import com.java.example.tanzu.hungryman.processor.cache.HashCache;
-import com.java.example.tanzu.hungryman.searcher.Searcher;
+import com.java.example.tanzu.wherefordinner.model.Availability;
+import com.java.example.tanzu.wherefordinner.model.SearchCriteria;
+import com.java.example.tanzu.wherefordinner.processor.cache.HashCache;
+import com.java.example.tanzu.wherefordinner.searcher.Searcher;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;

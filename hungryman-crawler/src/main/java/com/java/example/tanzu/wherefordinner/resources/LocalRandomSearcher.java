@@ -1,4 +1,4 @@
-package com.java.example.tanzu.hungryman.resources;
+package com.java.example.tanzu.wherefordinner.resources;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import com.java.example.tanzu.hungryman.config.StaticDiningAvailability;
-import com.java.example.tanzu.hungryman.model.Availability;
-import com.java.example.tanzu.hungryman.model.SearchCriteria;
+import com.java.example.tanzu.wherefordinner.config.StaticDiningAvailability;
+import com.java.example.tanzu.wherefordinner.model.Availability;
+import com.java.example.tanzu.wherefordinner.model.SearchCriteria;
 
 import reactor.core.publisher.Flux;
 

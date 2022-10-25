@@ -1,6 +1,6 @@
 server.port: 8082
 
-hungryman:
+where-for-dinner:
   randomsearcher:
     establishments:
     - diningName: Bristol

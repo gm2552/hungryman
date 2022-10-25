@@ -99,8 +99,8 @@ accelerator:
     dependsOn: 
       name: enableCloudEvents
       value: true
-  - label: Enable Security (Requires Additional TLS Configuration Not Provided By This Accelerator)
-    description: "If set to true, security will enabled on the application and APIs.  You will need to provide additional security configuation in the subsequent sections below."
+  - label: Enable Security
+    description: "If set to true, security will enabled on the application and APIs."
     defaultValue: false
     name: enableSecurity
     inputType: checkbox
@@ -114,33 +114,7 @@ accelerator:
     dataType: string
     required: true
     dependsOn: 
-      name: enableSecurity   
-  - label: TLS Certificate Source Type
-    description: "The source type of the certificate used for TLS configuration.  The source is configured outside of this accelerator."
-    defaultValue: clusterIssuer
-    name: ssoCertSource
-    inputType: select
-    required: true
-    choices:
-    - value: clusterIssuer
-      text: Cluster Certificate Issuer
-    - value: issuer
-      text: Namespace Bound Certificate Issuer
-    - value: cert
-      text: Certificate Reference  
-    - value: secret
-      text: Secret Reference             
-    dependsOn: 
-      name: enableSecurity  
-  - label: TLS Certificate Source Reference Name
-    description: "The name of the referenceed certificate source."
-    defaultValue: <UPDATE ME>
-    name: ssoCertSourceRefName
-    inputType: text
-    dataType: string
-    required: true
-    dependsOn: 
-      name: enableSecurity                
+      name: enableSecurity                  
   - label: Workload URL
     description: "The URL where the application will be published; used for AppSSO redirects.  Generally 'https://hungryman.<domain name>"
     defaultValue: https://hungryman.<UPDATE ME>

@@ -14,27 +14,6 @@
 #@ end            
 #@ end
 
-#@ def buildTLSCertConfig():
-#@ if data.values.ssoCertSource == "clusterIssuer":
-      issuerRef: 
-        kind: ClusterIssuer
-        name: #@ data.values.ssoCertSourceRefName
-        
-#@ elif data.values.ssoCertSource == "issuer":
-      issuerRef: 
-        name: #@ data.values.ssoCertSourceRefName
-        
-#@ elif data.values.ssoCertSource == "cert":
-      certificateRef:    
-        name: #@ data.values.ssoCertSourceRefName  
-        
-#@ elif data.values.ssoCertSource == "secret":
-      secretRef:            
-        name: #@ data.values.ssoCertSourceRefName
-#@ end
-
-#@ end
-
 ---
 apiVersion: sso.apps.tanzu.vmware.com/v1alpha1
 kind: AuthServer
@@ -49,7 +28,8 @@ metadata:
     sso.apps.tanzu.vmware.com/allow-unsafe-identity-provider: ""
     sso.apps.tanzu.vmware.com/allow-unsafe-issuer-uri: ""
 spec:
-  tls: #@ buildTLSCertConfig()
+  tls: 
+    disabled: true
   tokenSignature:
     signAndVerifyKeyRef:
       name: #@ data.values.appSSOName +"-signing-key"

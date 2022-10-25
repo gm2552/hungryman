@@ -15,15 +15,15 @@ spring:
         definition: processAvailability
       bindings: 
         processAvailability-in-0: 
-          destination: hungryman-search-result
-          group: hungryman-search-result-group
+          destination: where-for-dinner-search-result
+          group: where-for-dinner-search-result-group
           consumer: 
             maxAttempts: 4
             backOffInitialInterval: 15000
             backOffMaxInterval: 60000 
             
 springdoc:
-  packages-to-scan: com.java.example.tanzu.hungryman.resources
+  packages-to-scan: com.java.example.tanzu.wherefordinner.resources
   show-spring-cloud-functions: false
   
 ---

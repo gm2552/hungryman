@@ -82,7 +82,7 @@ spec:
   filter:
     attributes:
       source: 'http://spring.io/'
-      type: 'com.java.example.tanzu.hungryman.model.Availability'
+      type: 'com.java.example.tanzu.wherefordinner.model.Availability'
   subscriber:
     ref:
       apiVersion: serving.knative.dev/v1
@@ -103,7 +103,7 @@ spec:
   filter:
     attributes:
       source: 'http://spring.io/'
-      type: 'com.java.example.tanzu.hungryman.model.Availability'
+      type: 'com.java.example.tanzu.wherefordinner.model.Availability'
   subscriber:
     ref:
       apiVersion: serving.knative.dev/v1

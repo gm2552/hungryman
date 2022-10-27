@@ -6,7 +6,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("local")
 @SpringBootTest
-class WhereForeDinnerAvailabilityApplicationTests {
+class WhereForDinnerAvailabilityApplicationTests {
 
 	@Test
 	void contextLoads() {

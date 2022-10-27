@@ -21,10 +21,10 @@ spring:
         definition: submittedSearches
       bindings: 
         submittedSearches-out-0: 
-          destination: where-for-dinner-search-criteria
+          destination: hungryman-search-criteria
 
 springdoc:
-  packages-to-scan: com.java.example.tanzu.where-for-dinner.resources
+  packages-to-scan: com.java.example.tanzu.wherefordinner.resources
   show-spring-cloud-functions: false
           
 ---

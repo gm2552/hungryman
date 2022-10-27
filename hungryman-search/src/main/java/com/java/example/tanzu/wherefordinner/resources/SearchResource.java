@@ -37,7 +37,7 @@ import reactor.core.publisher.Mono;
 @OpenAPIDefinition(
         info = @Info(
                 title = "Where for Dinner Search Service",
-        		description = "Core Where for Dinner  service for submitting searches and parameters"),
+        		description = "Core Where for Dinner service for submitting searches and parameters"),
         tags = @Tag(
                 name = "Search Submission REST API",
                 description = "CRUD operations for submiting, retrieving, and deleting searches"))

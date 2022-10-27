@@ -12,8 +12,8 @@ spring:
         definition: notifyAvailability
       bindings: 
         notifyAvailability-in-0: 
-          destination: where-for-dinner-search-result
-          group: where-for-dinner-notify-group
+          destination: hungryman-search-result
+          group: hungryman-notify-group
           consumer: 
             maxAttempts: 4
             backOffInitialInterval: 15000

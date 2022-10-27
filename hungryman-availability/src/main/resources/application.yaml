@@ -15,8 +15,8 @@ spring:
         definition: processAvailability
       bindings: 
         processAvailability-in-0: 
-          destination: where-for-dinner-search-result
-          group: where-for-dinner-search-result-group
+          destination: hungryman-search-result
+          group: hungryman-search-result-group
           consumer: 
             maxAttempts: 4
             backOffInitialInterval: 15000

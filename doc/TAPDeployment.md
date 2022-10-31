@@ -212,7 +212,7 @@ The accelerator contains the following configuration options:
 * **Workload URL :**  If security is enabled, this is the expected URL of the Hungman application's UI web page.  It will be used to generate the redirect URI back the API gateway service after a successful user authentication.
 * **Create Default Dev Account:**  If this box is checked, a default development account will be created that can be used to authenticate with the AppSSO service.
 * **Dev Account Username:** The username of the default dev account in the AppSSO instance.
-* **Dev Account BCrypt Password:** The plain text password of the default dev account in the AppSSO instance.
+* **Dev Account Password:** The plain text password of the default dev account in the AppSSO instance.
 
 
 **NOTE** The default workload namespace is `workloads` and NOT `default`.  Make sure the workload namespace you choose is setup to build and run workloads.

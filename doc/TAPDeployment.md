@@ -120,17 +120,17 @@ hungryman-ui             https://github.com/gm2552/hungryman.git   source-to-url
 
 ## Configuration Option Overview  
 
-Tanzu Application Platform supports various eventing options for deployments.  The two targetted for this application of the following:
+Tanzu Application Platform supports various eventing options for deployments.  The two targeted for this application of the following:
 
 * Spring Cloud Streams
 * Knative eventing
 
 In addition, the Hungryman application has additional deployment options which consume additional services and/or provide additional functionality.  These include
-* H2 (In Memory) vs MySQL vs Postgress database options
+* H2 (In Memory) vs MySQL vs Postgres database options
 * In Memory Cache vs Redis cache option
 * Security enablement with AppSSO
 
-The simplest configuration is to use Spring Cloud Streams; however, using KNative eventing provides for extended capabilities such as scale to zero and auto scaling.  In both options, a Spring Cloud Streams binding implementation is required for moving messages from the `hungryman-search` application; RabbitMQ is the default binding provided.  Neither option requires a change in source code, however different runtime dependencies are configured at build time depending on which eventing implementation is desired.  
+The simplest configuration is to use Spring Cloud Streams; however, using Knative eventing provides for extended capabilities such as scale to zero and auto scaling.  In both options, a Spring Cloud Streams binding implementation is required for moving messages from the `hungryman-search` application; RabbitMQ is the default binding provided.  Neither option requires a change in source code, however different runtime dependencies are configured at build time depending on which eventing implementation is desired.  
 
 For database configuration, the default H2 in memory database is the simplest option and requires no additional database services to be installed, however you will lose all database information with an application restart and can not scale past one instance.  The MySQL and Postgres options give you persistence and scalability, but require you to install a database operator and provision database instances.  
 
@@ -138,7 +138,7 @@ For caching configuration, the default in memory cache is also the simplest opti
 
 By default, the application has no security.  When choosing the security configuration, you are required to create an AppSSO instance resource as well as a `ClientRegistration` resource for the Hungryman application; the accelerator will generate the resource yaml for you.  You can either use a built in development account, or have the option (in a future release of this accelerator) to connect to external OIDC identity providers.
 
-**NOTE** For the fastest and easiest path to deploying this application, use the default options of the H2 database, in memory cache and no security.  You will still be required to deploy the RabbitMQ operator out of band, however this step is trivial as explained in the `RabbitMQ Operator` section of this guide.
+**NOTE** For the fastest and easiest path to deploying this application, use the default options of the H2 database, in memory cache, and no security.  You will still be required to deploy the RabbitMQ operator out of band, however this step is trivial as explained in the `RabbitMQ Operator` section of this guide.
 
 ## RabbitMQ Installation
 
@@ -158,14 +158,14 @@ There are two options for installing RabbitMQ:
 To install the open source RabbitMQ operator, run the following command against your cluster.  Later deployment instructions will assume that your RabbitMQ cluster and the Hungryman application are installed on the same cluster for the purpose of service binding, but this is not technically a requirement.
 
 ```
-kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/download/v1.13.1/cluster-operator.yml"
+kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/download/v1.14.0/cluster-operator.yml"
 ```
 
 If successfully installed, there will be an RabbitMQ cluster operator pod running in the `rabbitmq-system` namespace.
 
 ##### RabbitMQ Topology Operator
 
-If you choose to use the KNative eventing deployment option, you will also need to deploy the RabbitMQ Topology Operator.  This operator allows for the declarative creation of resources like RabbitMQ exchanges, queues, and bindings.  The topology operator is a dependency of the KNative RabbitMQ source resource.  The RabbitMQ source acts as a bridge between messages emitted by the `hungryman-search` application and the rest of the downstream services. 
+If you choose to use the Knative eventing deployment option, you will also need to deploy the RabbitMQ Topology Operator.  This operator allows for the declarative creation of resources like RabbitMQ exchanges, queues, and bindings.  The topology operator is a dependency of the Knative RabbitMQ source resource.  The RabbitMQ source acts as a bridge between messages emitted by the `hungryman-search` application and the rest of the downstream services. 
 
 To install the RabbitMQ Topology operator, run the following command against your cluster. 
 

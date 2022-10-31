@@ -63,11 +63,13 @@
 #@ end
 
 
-#@ def buildUIGitBranch():
+#@ def buildGuiAppEnv():
+#@ profile = "nonsecure"
 #@ if data.values.enableSecurity == True:
-#@ return "secure-ui"
+#@ profile = "secure"
 #@ end
-#@ return "main"
+  - name: REACT_APP_PROFILE
+    value: #@ profile
 #@ end
 
 
@@ -229,6 +231,7 @@ metadata:
     app.kubernetes.io/part-of: hungryman-ui
     networking.knative.dev/visibility: cluster-local
 spec:
+  env: #@ buildGuiAppEnv()
   params:
   - name: annotations
     value: 
@@ -237,7 +240,7 @@ spec:
     git:
       url: https://github.com/gm2552/hungryman.git
       ref:
-        branch: #@ buildUIGitBranch()
+        branch: main
     subPath: hungryman-ui
 ---
 apiVersion: carto.run/v1alpha1

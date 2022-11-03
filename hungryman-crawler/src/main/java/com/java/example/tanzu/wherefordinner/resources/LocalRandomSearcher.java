@@ -43,7 +43,7 @@ public class LocalRandomSearcher
 		var rn = new Random();
 		var numDinings = 0;
 		
-		log.info("Generating random dining options for search {}.", crit.getName());
+		log.info("Generating random dining options.");
 		
 		if (crit.getDiningNames() != null && !crit.getDiningNames().isEmpty())
 		{
@@ -81,7 +81,7 @@ public class LocalRandomSearcher
 			dinings.add(bucket.remove(bucketEntryIdx));
 		}
 
-		log.info("Generated {} random dining options for search .", dinings.size(), crit.getName());
+		log.info("Generated {} random dining options.", dinings.size());
 		
 		return Flux.fromIterable(dinings);
 	}

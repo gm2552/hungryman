@@ -116,7 +116,7 @@ kind: Exchange
 metadata:
   labels:
     eventing.knative.dev/SourceName: hungryman-search-criteria-rabbit-source
-  name: hungryman-search-criteria-exchnage
+  name: hungryman-search-criteria
   namespace: #@ data.values.workloadNamespace
 spec:
   durable: true
@@ -132,7 +132,7 @@ kind: Queue
 metadata:
   labels:
     eventing.knative.dev/SourceName: hungryman-search-criteria-rabbit-source
-  name: hungryman-search-criteria-queue
+  name: hungryman-search-criteria
   namespace: #@ data.values.workloadNamespace
 spec:
   durable: true
@@ -149,7 +149,7 @@ kind: Binding
 metadata:
   labels:
     eventing.knative.dev/SourceName: hungryman-search-criteria-rabbit-source
-  name: hungryman-search-criteria-binding
+  name: hungryman-search-criteria
   namespace: #@ data.values.workloadNamespace
 spec:
   source: hungryman-search-criteria

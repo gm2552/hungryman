@@ -153,6 +153,10 @@ accelerator:
       name: enableDefaultDevAccount
      
 engine:
+  let:
+    - name: secureProfile
+      expression:
+        "'secure'"
   merge:
   - exclude: 
       ["**/templates/**", "**/icons/**", "**/.git/**", "**/deployment/**"]
@@ -207,7 +211,15 @@ engine:
       rewriteTo: "'config/service-operator/appSSOInstance.yaml'"  
     - type: RewritePath
       regex: 'templates/clientRegistrationResourceClaim.yaml'
-      rewriteTo: "'config/app-operator/clientRegistrationResourceClaim.yaml'"    
+      rewriteTo: "'config/app-operator/clientRegistrationResourceClaim.yaml'"   
+  - condition:
+      "#enableSecurity"
+    include: ["hungryman-ui/.env"]
+    chain:
+    - type: ReplaceText
+      substitutions:
+        - text: "nonsecure"
+          with: "#secureProfile"           
   - condition:
       "#cacheType == 'redisCache'"
     include: ["**/redisInstance.yaml", "**/redisResourceClaim.yaml"]

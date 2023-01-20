@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import com.java.example.tanzu.wherefordinner.feign.CrawlerClient;
+import com.java.example.tanzu.wherefordinner.exchange.CrawlerClient;
 import com.java.example.tanzu.wherefordinner.model.Availability;
 import com.java.example.tanzu.wherefordinner.model.SearchCriteria;
 import com.java.example.tanzu.wherefordinner.searcher.Searcher;

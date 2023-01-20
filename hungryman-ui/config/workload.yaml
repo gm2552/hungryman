@@ -1,17 +1,23 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: hungryman-notify
   labels:
+    app.kubernetes.io/part-of: hungryman-ui
+    apps.tanzu.vmware.com/has-tests: "true"
     apps.tanzu.vmware.com/workload-type: web
-    apps.tanzu.vmware.com/auto-configure-actuators: "true"
-    app.kubernetes.io/part-of: where-for-dinner-notify
     networking.knative.dev/visibility: cluster-local
+  name: atm-locator-angular
 spec:
+  build:
+    env:
+    - name: BP_NODE_RUN_SCRIPTS
+      value: build
+    - name: BP_WEB_SERVER_ROOT
+      value: dist
   params:
   - name: annotations
-    value:
-      autoscaling.knative.dev/minScale: "1"
+    value: 
+      autoscaling.knative.dev/minScale: "1" 
   resources:     
     requests:         
       memory: "500M"
@@ -19,19 +25,9 @@ spec:
     limits:         
       memory: "750M"
       cpu: "1500m"         
-  build:
-    env:
-      - name: BP_JVM_VERSION
-        value: "17"       
-  serviceClaims:
-  - name: rmq
-    ref:
-      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
-      kind: ResourceClaim
-      name: rmq-hungryman
   source:
     git:
       url: https://github.com/gm2552/hungryman.git
       ref:
         branch: main
-    subPath: hungryman-notify
+    subPath: hungryman-ui

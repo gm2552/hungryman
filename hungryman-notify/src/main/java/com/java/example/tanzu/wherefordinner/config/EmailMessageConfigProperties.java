@@ -14,7 +14,7 @@ import lombok.Data;
  *
  */
 @Configuration
-@ConfigurationProperties(prefix = "where-for-dinner.notifications.email") 
+@ConfigurationProperties(prefix = "where-for-dinner.notifications.email")
 @Data
 public class EmailMessageConfigProperties 
 {

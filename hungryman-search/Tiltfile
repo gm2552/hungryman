@@ -19,4 +19,4 @@ k8s_custom_deploy(
 )
 
 k8s_resource('hungryman-search', port_forwards=["8080:8080"],
-    extra_pod_selectors=[{'serving.knative.dev/service': 'hungryman-search'}])
+    extra_pod_selectors=[{'carto.run/workload-name': 'hungryman-search', 'app.kubernetes.io/component': 'run'}])

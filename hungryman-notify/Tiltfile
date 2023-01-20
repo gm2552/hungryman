@@ -19,4 +19,4 @@ k8s_custom_deploy(
 )
 
 k8s_resource('hungryman-notify', port_forwards=["8080:8080"],
-    extra_pod_selectors=[{'serving.knative.dev/service': 'hungryman-notify'}])
+    extra_pod_selectors=[{'carto.run/workload-name': 'hungryman-notify', 'app.kubernetes.io/component': 'run'}])

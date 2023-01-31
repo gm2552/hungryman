@@ -22,7 +22,7 @@ metadata:
   namespace: #@ data.values.workloadNamespace
   labels:
     name: #@ data.values.appSSOName
-    app: hungryman    
+    app: hungryman   
   annotations:
     sso.apps.tanzu.vmware.com/allow-client-namespaces: "*"
     sso.apps.tanzu.vmware.com/allow-unsafe-identity-provider: ""
@@ -47,3 +47,29 @@ spec:
       key.pem: $(privateKey)      
       pub.pem: $(publicKey)
       
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: hungryman-client-registration-app-operator-reader
+  labels:
+    servicebinding.io/controller: "true"
+rules:
+- apiGroups: ["sso.apps.tanzu.vmware.com"]
+  resources: ["ClientRegistration"]
+  verbs: ["get", "list", "watch"]
+
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClusterInstanceClass
+metadata:
+  name: clientreg-hungryman
+spec:
+  description:
+    short: Hungryman AppSSO Client Registrations
+  pool:
+    group: sso.apps.tanzu.vmware.com
+    kind: ClientRegistration
+    labelSelector:
+      matchLabels:
+        services.apps.tanzu.vmware.com/class: clientreg-hungryman    

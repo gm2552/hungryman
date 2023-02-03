@@ -31,5 +31,8 @@ metadata:
   namespace: #@ data.values.workloadNamespace
 spec:
   classRef:
-    name: rabbitmq-hungryman
+    name: #@ data.values.dynamicMsgBrokerClass
+  parameters:
+    replicas: #@ data.values.numRabbitMQClusterNodes 
+    serviceNamespace: #@ data.values.serviceNamespace
 #@ end

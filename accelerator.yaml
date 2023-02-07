@@ -68,7 +68,7 @@ accelerator:
       name: msgBrokerType
       value: rabbitmq    
   - label: Database Type
-    description: The type of database that services will connenct to.
+    description: The type of database that services will connect to.
     inputType: select
     defaultValue: h2
     name: dbType
@@ -108,7 +108,7 @@ accelerator:
       name: dbType
       value: mysql
   - label: Cache Type
-    description: The type of cache that services will connenct to.
+    description: The type of cache that services will connect to.
     inputType: select
     defaultValue: inmemCache
     name: cacheType

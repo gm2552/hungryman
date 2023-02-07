@@ -8,6 +8,7 @@ spring:
   
   cloud: 
     stream:
+      defaultBinder: rabbit
       poller:
         fixed-delay: ${where-for-dinner.searchEvent.period} 
       function:

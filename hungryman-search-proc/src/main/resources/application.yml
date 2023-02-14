@@ -4,6 +4,9 @@ management:
       enabled: false
 
 spring: 
+  application:
+    name: hungryman-search-proc
+
   cloud: 
     stream:
       defaultBinder: rabbit

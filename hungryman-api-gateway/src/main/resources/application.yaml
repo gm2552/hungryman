@@ -10,6 +10,9 @@ where-for-dinner:
     uri: http://hungryman-availability.${where-for-dinner.namespace}/
 
 spring:
+  application:
+    name: hungryman-api-gateway
+
   session:
     timeout: 60m
   cloud:

@@ -9,6 +9,10 @@ server:
   forward-headers-strategy: framework
   
 spring: 
+  application:
+    name: hungryman-availability
+
+
   sql.init.mode: ALWAYS
   sql.init.platform: h2
   

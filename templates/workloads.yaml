@@ -103,6 +103,7 @@
 #@ end
 #@ end
 
+#@ if data.values.gatewayType == 'ossscg':
 ---
 apiVersion: carto.run/v1alpha1
 kind: Workload
@@ -112,7 +113,8 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman-api-gateway
-    apps.tanzu.vmware.com/auto-configure-actuators: "true"    
+    apps.tanzu.vmware.com/auto-configure-actuators: "true"   
+    apps.tanzu.vmware.com/has-tests: "true" 
 spec:
   env: #@ buildAppEnv(True,False,False,False,False)
   params:
@@ -139,7 +141,7 @@ spec:
       ref:
         branch: main
     subPath: hungryman-api-gateway
-    
+#@ end    
 ---
 apiVersion: carto.run/v1alpha1
 kind: Workload
@@ -150,7 +152,8 @@ metadata:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman-search
     networking.knative.dev/visibility: cluster-local
-    apps.tanzu.vmware.com/auto-configure-actuators: "true"    
+    apps.tanzu.vmware.com/auto-configure-actuators: "true"   
+    apps.tanzu.vmware.com/has-tests: "true" 
 spec:
   env: #@ buildAppEnv(True,True,False,False,True)
   params:
@@ -188,7 +191,8 @@ metadata:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman-search-proc
     networking.knative.dev/visibility: cluster-local
-    apps.tanzu.vmware.com/auto-configure-actuators: "true"    
+    apps.tanzu.vmware.com/auto-configure-actuators: "true"  
+    apps.tanzu.vmware.com/has-tests: "true"  
 spec:
   env: #@ buildAppEnv(False,False,True,True,True)
   build:
@@ -220,7 +224,8 @@ metadata:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman-notify
     networking.knative.dev/visibility: cluster-local
-    apps.tanzu.vmware.com/auto-configure-actuators: "true"    
+    apps.tanzu.vmware.com/auto-configure-actuators: "true"   
+    apps.tanzu.vmware.com/has-tests: "true" 
 spec:
   env: #@ buildAppEnv(False,False,False,False,True)
   build:
@@ -252,6 +257,7 @@ metadata:
     app.kubernetes.io/part-of: hungryman-availability
     networking.knative.dev/visibility: cluster-local
     apps.tanzu.vmware.com/auto-configure-actuators: "true"    
+    apps.tanzu.vmware.com/has-tests: "true"
 spec:
   build:
      env: #@ buildBuildParams()
@@ -287,6 +293,7 @@ metadata:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: hungryman-ui
     networking.knative.dev/visibility: cluster-local
+    apps.tanzu.vmware.com/has-tests: "true"
 spec:
   build:
     env:
@@ -323,8 +330,8 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: server
     app.kubernetes.io/part-of: hungryman-crawler
-    networking.knative.dev/visibility: cluster-local 
-    apps.tanzu.vmware.com/auto-configure-actuators: "true"    
+    apps.tanzu.vmware.com/auto-configure-actuators: "true"  
+    apps.tanzu.vmware.com/has-tests: "true"  
 spec:
   params:
   - name: ports

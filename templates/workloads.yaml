@@ -154,6 +154,7 @@ metadata:
     networking.knative.dev/visibility: cluster-local
     apps.tanzu.vmware.com/auto-configure-actuators: "true"   
     apps.tanzu.vmware.com/has-tests: "true" 
+    apis.apps.tanzu.vmware.com/register-api: "true"    
 spec:
   env: #@ buildAppEnv(True,True,False,False,True)
   params:
@@ -162,6 +163,14 @@ spec:
       autoscaling.knative.dev/minScale: "1"
       autoscaling.knative.dev/target: "200"
       autoscaling.knative.dev/maxScale: "4"
+  - name: api_descriptor
+    value:
+      type: openapi 
+      location:
+        path: "/v3/api-docs"
+      system: hungryman
+      owner: hungryman-team  
+      description: "Core Where for Dinner service for submitting searches and parameters"    
   serviceClaims: #@ buildServiceClaimsBinding(True, True, True, False)
   resources:     
     requests:         
@@ -258,6 +267,7 @@ metadata:
     networking.knative.dev/visibility: cluster-local
     apps.tanzu.vmware.com/auto-configure-actuators: "true"    
     apps.tanzu.vmware.com/has-tests: "true"
+    apis.apps.tanzu.vmware.com/register-api: "true"     
 spec:
   build:
      env: #@ buildBuildParams()
@@ -268,6 +278,14 @@ spec:
       autoscaling.knative.dev/minScale: "1"
       autoscaling.knative.dev/target: "200"
       autoscaling.knative.dev/maxScale: "4"
+  - name: api_descriptor
+    value:
+      type: openapi 
+      location:
+        path: "/v3/api-docs"
+      system: hungryman
+      owner: hungryman-team  
+      description: "Core Where For Dinner service for retrieving dining availability"        
   serviceClaims: #@ buildServiceClaimsBinding(True, True, True, False)
   resources:     
     requests:         

@@ -30,7 +30,7 @@ The value proposition of the Hungryman application is to search for availability
 
 Hungryman consists of five main service modules:
 
-* A gateway (`hungryman-api-gateway`)
+* A gateway (`hungryman-api-gateway` or Commercial Spring Cloud Gateway)
 * A web UI service (`hungryman-ui`)
 * An API service for submitting search requests (`hungryman-search`)
 * A processor service for executing searches against availability sources and managing results (`hungryman-search-proc`)
@@ -38,7 +38,7 @@ Hungryman consists of five main service modules:
 
 Hungryman also has two optional components:
 
-* A crawler service that collects establishment availability and provides a query API (`hungrman-crawler`)
+* A crawler service that collects establishment availability and provides a query API (`hungrman-crawler` or `hungrman-crawler-python`)
 * A real time notification service that publishes availability to configured destinations (`hungryman-notifiy`)
 
 The high level data flow looks like the following:

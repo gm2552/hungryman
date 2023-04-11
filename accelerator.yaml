@@ -237,6 +237,13 @@ accelerator:
     inputType: text
     dataType: string
     required: true  
+  - label: Alternate Workload Implementations
+    description: "When checked, certain workloads will use alternative implementations written in different programming languages demostrating polyglot capabilities"
+    defaultValue: false
+    name: ployglotWorkloads
+    inputType: checkbox
+    dataType: boolean
+    required: true      
 engine:
   let:
     - name: secureProfile

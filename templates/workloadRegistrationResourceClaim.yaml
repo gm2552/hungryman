@@ -11,4 +11,4 @@ spec:
   parameters: 
     redirectPaths: ['/login/oauth2/code/sso']
     workloadRef:
-      name: where-for-dinner
+      name: hungryman

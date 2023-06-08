@@ -7,7 +7,7 @@ server:
 
 where-for-dinner:
   searchEvent:
-    period: 5000
+    period: 120000
 
 # default profile uses H2 as the database and RabbitMQ and the stream binder
     
@@ -61,6 +61,14 @@ spring:
     stream:
       defaultBinder: kafka
 
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+
+management:
+  health:
+    rabbit:
+      enabled: false
+
 ---
 
 spring:
@@ -68,5 +76,13 @@ spring:
   
   cloud: 
     stream:
-      defaultBinder: kinesis      
+      defaultBinder: kinesis     
+      
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+
+management:
+  health:
+    rabbit:
+      enabled: false 
           

@@ -3,7 +3,7 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: xrabbitmqclusters.hungryman.messaging.example.org
+  name: xrabbitmqclusters.wherefordinner.messaging.example.org
 spec:
   connectionSecretKeys:
   - host
@@ -44,7 +44,7 @@ metadata:
   name: xrabbitmqclusters.hungryman.messaging.example.org
 spec:
   compositeTypeRef:
-    apiVersion: hungryman.messaging.example.org/v1alpha1
+    apiVersion: wherefordinner.messaging.example.org/v1alpha1
     kind: XRabbitmqCluster
   publishConnectionDetailsWithStoreConfigRef:
     name: default

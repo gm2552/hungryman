@@ -29,7 +29,6 @@ spring:
         uri: ${where-for-dinner.search.uri}
         predicates:
         - Path=/api/search/**      
-        - Host=hungryman**.**
         filters:
         - TokenRelay=
         - RewritePath=/api/search(?<segment>/?.*), $\{segment}
@@ -38,7 +37,6 @@ spring:
         uri: ${where-for-dinner.availability.uri}
         predicates:
         - Path=/api/availability/** 
-        - Host=hungryman**.**
         filters:
         - TokenRelay=
         - RewritePath=/api/availability(?<segment>/?.*), $\{segment}
@@ -46,12 +44,10 @@ spring:
       - id: where-for-dinner_ui_route
         uri: ${where-for-dinner.ui.uri}
         predicates:
-        - Host=hungryman**.**
         - Path=/diningsearch
       - id: where-for-dinner_ui_route
         uri: ${where-for-dinner.ui.uri}
         predicates:
-        - Host=hungryman**.**
         - Path=/**
 
 ---
@@ -68,3 +64,4 @@ where-for-dinner:
     uri: http://localhost:8081/
   availability:
     uri: http://localhost:8082/
+

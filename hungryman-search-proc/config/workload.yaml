@@ -27,8 +27,8 @@ spec:
   - name: rmq
     ref:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
-      kind: ResourceClaim
-      name: rmq-hungryman
+      kind: ClassClaim
+      name: msgbroker-where-for-dinner
   source:
     git:
       url: https://github.com/gm2552/hungryman.git

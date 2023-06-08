@@ -54,7 +54,7 @@ accelerator:
     choices:
     - value: rabbitmq
       text: RabbitMQ
-  - label: Dyamically Provision Message Broker
+  - label: Dynamically Provision Message Broker
     description: "If set to true, the message broker will be dynamically provisioned.  Requires Crossplane and CSP packages to be installed."
     defaultValue: false
     name: dynamicMsgBroker
@@ -98,7 +98,7 @@ accelerator:
     - value: h2
       text: H2 (In Memory DB)
     required: true
-  - label: Dyamically Provision Database
+  - label: Dynamically Provision Database
     description: "If set to true, the database will be dynamically provisioned.  Requires Crossplane and CSP packages to be installed."
     defaultValue: false
     name: dynamicDatabase
@@ -138,7 +138,7 @@ accelerator:
     - value: redisCache
       text: Redis
     required: true
-  - label: Dyamically Provision Cache
+  - label: Dynamically Provision Cache
     description: "If set to true, the cache will be dynamically provisioned.  Requires Crossplane and CSP packages to be installed."
     defaultValue: false
     name: dynamicCache
@@ -237,6 +237,9 @@ accelerator:
     inputType: text
     dataType: string
     required: true  
+    dependsOn: 
+      name: gatewayType
+      value: tapscg  
   - label: Alternate Workload Implementations
     description: "When checked, certain workloads will use alternative implementations written in different programming languages demostrating polyglot capabilities"
     defaultValue: false
@@ -244,11 +247,17 @@ accelerator:
     inputType: checkbox
     dataType: boolean
     required: true      
+  imports:
+    - name: tap-workload
+    - name: build-wrapper-maven
 engine:
   let:
     - name: secureProfile
       expression:
         "'secure'"
+    - name: empty
+      expression:
+        "''"        
   merge:
   - exclude: 
       ["**/templates/**", "**/icons/**", "**/.git/**", "**/deployment/**", "**/hungryman-api-gateway/**"]
@@ -273,6 +282,8 @@ engine:
     - type: RewritePath
       regex: 'templates/workloads.yaml'
       rewriteTo: "'config/developer/workloads.yaml'"                  
+    - type: InvokeFragment
+      reference: tap-workload
   - condition: "#msgBrokerType == 'rabbitmq' && !#dynamicMsgBroker"
     include: ["**/rmqCluster.yaml"]
     chain:
@@ -281,11 +292,11 @@ engine:
       regex: 'templates/rmqCluster.yaml'
       rewriteTo: "'config/service-operator/rmqCluster.yaml'"   
   - condition: "#msgBrokerType == 'rabbitmq' && #dynamicMsgBroker"
-    include: ["**/dyanmicRabbitMQCluster.yaml"]
+    include: ["**/dynamicRabbitMQCluster.yaml"]
     chain:
     - type: RewritePath
-      regex: 'templates/dyanmicRabbitMQCluster.yaml'
-      rewriteTo: "'config/service-operator/dyanmicRabbitMQCluster.yaml'"         
+      regex: 'templates/dynamicRabbitMQCluster.yaml'
+      rewriteTo: "'config/service-operator/dynamicRabbitMQCluster.yaml'"         
   - condition: "#dbType == 'mysql' && !#dynamicDatabase"
     include: ["**/mysqlInstance.yaml"]
     chain:
@@ -323,15 +334,15 @@ engine:
       rewriteTo: "'config/app-operator/knEventing.yaml'"  
   - condition:
       "#enableSecurity"
-    include: ["**/appSSOInstance.yaml", "**/clientRegistrationResourceClaim.yaml"]
+    include: ["**/appSSOInstance.yaml", "**/workloadRegistrationResourceClaim.yaml"]
     chain:
     - type: YTT  
     - type: RewritePath
       regex: 'templates/appSSOInstance.yaml'
       rewriteTo: "'config/service-operator/appSSOInstance.yaml'"  
     - type: RewritePath
-      regex: 'templates/clientRegistrationResourceClaim.yaml'
-      rewriteTo: "'config/app-operator/clientRegistrationResourceClaim.yaml'"   
+      regex: 'templates/workloadRegistrationResourceClaim.yaml'
+      rewriteTo: "'config/app-operator/workloadRegistrationResourceClaim.yaml'"   
   - condition:
       "#enableSecurity"
     include: ["hungryman-ui/.env"]
@@ -364,3 +375,45 @@ engine:
     - type: RewritePath
       regex: 'templates/redisResourceClaim.yaml'
       rewriteTo: "'config/app-operator/redisResourceClaim.yaml'"       
+  - type: InvokeFragment
+    reference: build-wrapper-maven
+  - include: ["README.md"]      
+  - chain:
+    - type: InvokeFragment
+      reference: build-wrapper-maven
+    - type: RewritePath
+      rewriteTo: "'hungryman-search/' + (#folder != null ? #folder : '') + #filename"  
+  - chain:
+    - type: InvokeFragment
+      reference: build-wrapper-maven
+    - type: RewritePath
+      rewriteTo: "'hungryman-availability/' + (#folder != null ? #folder : '') + #filename"  
+  - chain:
+    - type: InvokeFragment
+      reference: build-wrapper-maven
+    - type: RewritePath
+      rewriteTo: "'hungryman-notify/' + (#folder != null ? #folder : '') + #filename"  
+  - chain:
+    - type: InvokeFragment
+      reference: build-wrapper-maven
+    - type: RewritePath
+      rewriteTo: "'hungryman-search-proc/' + (#folder != null ? #folder : '') + #filename"   
+  - chain:
+    - type: InvokeFragment
+      reference: build-wrapper-maven
+    - type: RewritePath
+      rewriteTo: "'hungryman-crawler/' + (#folder != null ? #folder : '') + #filename"          
+  - condition: "#gatewayType == 'ossscg'"
+    chain:
+    - type: InvokeFragment
+      reference: build-wrapper-maven
+    - type: RewritePath
+      rewriteTo: "'hungryman-api-gateway/' + (#folder != null ? #folder : '') + #filename" 
+  - condition: "#gatewayType == 'tapscg'" 
+    include: ["pom.xml"]
+    chain:
+    - type: ReplaceText
+      substitutions:
+        - text: "<module>./hungryman-api-gateway</module>"
+          with: "#empty"                   
+  - type: Provenance

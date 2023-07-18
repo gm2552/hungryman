@@ -28,6 +28,8 @@ spring:
       bindings: 
         submittedSearches-out-0: 
           destination: hungryman-search-criteria
+        deletedSearches-out-0: 
+          destination: hungryman-search-deletion
 
 springdoc:
   packages-to-scan: com.java.example.tanzu.wherefordinner.resources
